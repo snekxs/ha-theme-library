@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.1
+
+- Candle and Fireplace flicker much more lifelike now: each light runs
+  its own independent, unsynchronized flicker loop (instead of all
+  lights stepping in lockstep), brightness smooths toward organic
+  random targets with occasional bigger dips/flares, and color
+  temperature shifts subtly warmer at dips and whiter at flares — plus
+  faster, snappier ticks so it doesn't read as static.
+
 ## 0.5.0
 
 - Added **Dynamic Mode**: a global toggle (with a speed control) that

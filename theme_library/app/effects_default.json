@@ -6,7 +6,7 @@
     "description": "Warm, gentle flicker like a candle flame.",
     "kind": "flicker",
     "base_color": "#ffb347",
-    "params": { "brightness_base": 45, "brightness_swing": 15, "tick_seconds": 0.4 }
+    "params": { "brightness_base": 45, "brightness_swing": 22, "tick_seconds": 0.22 }
   },
   {
     "id": "fireplace",
@@ -15,7 +15,7 @@
     "description": "Deeper, more dramatic flicker like a wood fire.",
     "kind": "flicker",
     "base_color": "#ff6a1a",
-    "params": { "brightness_base": 55, "brightness_swing": 30, "tick_seconds": 0.35 }
+    "params": { "brightness_base": 55, "brightness_swing": 38, "tick_seconds": 0.18 }
   },
   {
     "id": "glisten",
@@ -24,7 +24,7 @@
     "description": "Warm gold with intermittent bright glints, like light on water.",
     "kind": "sparkle",
     "base_color": "#f0c869",
-    "params": { "brightness_base": 55, "brightness_swing": 20, "tick_seconds": 0.6 }
+    "params": { "brightness_base": 55, "brightness_swing": 20, "tick_seconds": 0.5 }
   },
   {
     "id": "sparkle",
@@ -33,7 +33,7 @@
     "description": "Rapid bright flashes over a dim warm base.",
     "kind": "sparkle",
     "base_color": "#fff1c1",
-    "params": { "brightness_base": 30, "brightness_swing": 20, "tick_seconds": 0.3 }
+    "params": { "brightness_base": 30, "brightness_swing": 20, "tick_seconds": 0.22 }
   },
   {
     "id": "underwater",

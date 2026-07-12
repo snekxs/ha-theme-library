@@ -183,6 +183,61 @@ async def _theme_cycle_loop(theme: dict, entity_ids: list, interval: float):
         await asyncio.sleep(interval)
 
 
+def _shift_warmth(rgb: list, ratio: float) -> list:
+    """Nudge a color redder when dim (ratio<1) or whiter when bright (ratio>1),
+    mimicking how a real flame shifts color temperature as it flickers."""
+    r, g, b = rgb
+    if ratio < 1:
+        factor = 1 - min(1.0, 1 - ratio) * 0.35
+        g = g * factor
+        b = b * factor * 0.7
+    elif ratio > 1:
+        boost = min(1.0, ratio - 1) * 0.3
+        g = g + (255 - g) * boost
+        b = b + (255 - b) * boost * 0.6
+    return [max(0, min(255, round(v))) for v in (r, g, b)]
+
+
+async def _flicker_light_loop(entity_id: str, base_rgb: list, brightness_base: int, swing: int, tick: float):
+    level = float(brightness_base)
+    while True:
+        # Mostly small jitter, occasionally a bigger gutter/flare for realism.
+        if random.random() < 0.15:
+            delta = random.choice((-1, 1)) * random.uniform(swing * 1.4, swing * 2.2)
+        else:
+            delta = random.uniform(-swing, swing)
+        target = brightness_base + delta
+        level = level * 0.4 + target * 0.6  # smooth toward target, not a hard jump
+        pct = max(4, min(100, round(level)))
+
+        ratio = pct / max(brightness_base, 1)
+        rgb = _shift_warmth(base_rgb, ratio)
+
+        body = {
+            "entity_id": entity_id,
+            "rgb_color": rgb,
+            "brightness_pct": pct,
+            "transition": 0.1,
+        }
+        await _safe_ha_post("/services/light/turn_on", body)
+        await asyncio.sleep(max(0.08, tick + random.uniform(-tick * 0.4, tick * 0.4)))
+
+
+async def _sparkle_light_loop(entity_id: str, base_rgb: list, brightness_base: int, swing: int, tick: float):
+    while True:
+        flash = random.random() < 0.25
+        pct = 100 if flash else max(4, brightness_base - swing)
+        rgb = _shift_warmth(base_rgb, 1.3 if flash else 0.9)
+        body = {
+            "entity_id": entity_id,
+            "rgb_color": rgb,
+            "brightness_pct": pct,
+            "transition": 0.1 if flash else 0.2,
+        }
+        await _safe_ha_post("/services/light/turn_on", body)
+        await asyncio.sleep(max(0.08, tick + random.uniform(-tick * 0.4, tick * 0.4)))
+
+
 async def _effect_loop(effect: dict, entity_ids: list):
     kind = effect["kind"]
     params = effect.get("params", {})
@@ -192,23 +247,12 @@ async def _effect_loop(effect: dict, entity_ids: list):
     if kind in ("flicker", "sparkle"):
         base_rgb = hex_to_rgb(effect["base_color"])
         swing = params.get("brightness_swing", 15)
-        while True:
-            for entity_id in entity_ids:
-                if kind == "flicker":
-                    pct = max(5, min(100, brightness_base + random.randint(-swing, swing)))
-                    transition = 0.2
-                else:  # sparkle
-                    flash = random.random() < 0.25
-                    pct = 100 if flash else max(5, brightness_base - swing)
-                    transition = 0.15
-                body = {
-                    "entity_id": entity_id,
-                    "rgb_color": base_rgb,
-                    "brightness_pct": pct,
-                    "transition": transition,
-                }
-                await _safe_ha_post("/services/light/turn_on", body)
-            await asyncio.sleep(tick)
+        loop_fn = _flicker_light_loop if kind == "flicker" else _sparkle_light_loop
+        # Each light runs its own independent, unsynchronized loop, like real
+        # flames/sparkles never move in lockstep with each other.
+        await asyncio.gather(
+            *(loop_fn(entity_id, base_rgb, brightness_base, swing, tick) for entity_id in entity_ids)
+        )
     else:  # "wave" or "loop"
         colors = effect["colors"]
         swing = params.get("brightness_swing", 0)
