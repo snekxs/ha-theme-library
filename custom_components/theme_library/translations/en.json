@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "Connect to Light Theme Library",
-        "description": "Enter the local URL of your Light Theme Library add-on. The default should work if you haven't changed the add-on's hostname.",
+        "description": "Enter the local URL of your Light Theme Library add-on. The default (localhost:8099) works as long as the add-on is running and its port 8099 hasn't been changed. Update the add-on to at least v0.7.0 first — earlier versions don't publish this port and won't be reachable.",
         "data": {
           "url": "Add-on URL"
         }

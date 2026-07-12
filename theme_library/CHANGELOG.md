@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.7.0
+
+- **Security-relevant change**: the add-on now also publishes port 8099
+  directly to the host (in addition to ingress), so the companion
+  integration (running inside Home Assistant Core) can reach it. Core
+  uses host networking and can't resolve add-on hostnames on
+  Supervisor's internal bridge network, so a published port was the
+  only reliable way to make this work.
+  - This means the add-on's API is now reachable from anywhere on your
+    LAN, not just through HA's authenticated ingress UI — there's no
+    additional auth on top of the published port. If that's not
+    acceptable for your network, don't install the companion
+    integration and this port isn't needed (ingress-only access still
+    works exactly as before).
+
 ## 0.6.2
 
 - Shortened the pinned-scene entity ID prefix (`theme_library_` →

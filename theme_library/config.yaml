@@ -1,5 +1,5 @@
 name: Light Theme Library
-version: "0.6.2"
+version: "0.7.0"
 slug: theme_library
 description: Browse, create, and apply light presets/themes across your smart lights.
 url: https://github.com/snekxs/ha-theme-library
@@ -16,5 +16,12 @@ panel_icon: mdi:palette
 panel_title: Themes
 homeassistant_api: true
 hassio_role: homeassistant
+ports:
+  8099/tcp: 8099
+ports_description:
+  8099/tcp: >-
+    Local API used by the companion "Light Theme Library" integration.
+    Reachable from your LAN, not just Home Assistant — there's no
+    separate authentication on top of this.
 options: {}
 schema: {}

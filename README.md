@@ -57,6 +57,16 @@ the add-on for your favorited themes and exposes each one as a real
 renameable, assignable to an area, and pressable from any dashboard,
 the same as any other HA entity.
 
+**Requires add-on v0.7.0+.** Earlier versions only exposed the add-on
+over ingress, which Home Assistant Core can't reach directly — Core
+runs with host networking (for LAN device discovery) while the add-on
+runs on Supervisor's internal bridge network, so it can't resolve the
+add-on's container hostname at all. v0.7.0 publishes port 8099 to the
+host so Core can reach it via `localhost:8099`. **This also means the
+add-on's API becomes reachable from anywhere on your LAN, not just
+through HA's authenticated ingress UI** — there's no additional auth
+layer on top of that port. Update the add-on first if you haven't.
+
 **Install via HACS (recommended — entirely from GitHub, no file copying):**
 
 1. In HACS: **⋮ (top right) → Custom repositories** → paste
@@ -66,15 +76,15 @@ the same as any other HA entity.
 3. Restart Home Assistant Core (Settings → System → Restart, not the
    add-on).
 4. **Settings → Devices & Services → Add Integration** → search "Light
-   Theme Library" → accept the default URL (works as long as the
-   add-on's slug is unchanged) → Submit.
+   Theme Library" → accept the default URL (`http://localhost:8099`) →
+   Submit.
 5. A "Light Theme Library" device appears with one button per favorited
    theme. Add them to your dashboard, rename/re-icon them, assign an
    area — all through HA's normal entity settings.
 
-The repo is tagged (`v0.1.0`) for HACS, but doesn't have a formal
+The repo is tagged (`v0.1.1`) for HACS, but doesn't have a formal
 GitHub *Release* published yet (that's a manual step on GitHub's
-website — Releases → Draft a new release → pick the `v0.1.0` tag →
+website — Releases → Draft a new release → pick the `v0.1.1` tag →
 Publish). If HACS refuses to install without one, do that first.
 
 **Install manually instead (no HACS):**
@@ -109,3 +119,9 @@ link pointing at that URL and share that instead of raw instructions.
   only — enough to read light states, call `light.turn_on`, and create
   scenes via `scene.create` (used by Favorites). No `admin` role, no host
   network, protection mode stays enabled.
+- As of v0.7.0, port 8099 is published to the host (for the companion
+  integration — see above), which means the add-on's REST API has no
+  authentication of its own and is reachable from anywhere on your LAN,
+  not just through HA. Treat it like any other unauthenticated local
+  service: fine on a typical trusted home network, not something to
+  expose past your router/firewall.
