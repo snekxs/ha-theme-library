@@ -1,127 +1,97 @@
 # Light Theme Library
 
-A Home Assistant App (add-on) for browsing, creating, and applying light
-presets/themes across your smart lights — like Hue's built-in themes, but
-extensible.
+A Home Assistant **custom integration** for browsing, creating, and applying
+light presets/themes across your smart lights — like Hue's built-in themes,
+but extensible. Installs entirely through HACS; no separate add-on, no
+Docker container, no port to publish. Everything runs inside Home Assistant
+Core itself.
 
 ## What it does
 
+- Adds a **"Themes" panel** to your sidebar — a full browsable gallery, not
+  a config page.
 - Ships with 96 bundled themes across 23 categories (Relax & Unwind,
   Energize & Wake Up, Focus & Work, Reading, Movie & TV, Party & Social,
   Romantic, Seasonal & Holiday, Nature & Outdoors, Gaming, Lo-Fi, Loft,
   Sci-Fi & Neon, Zen & Meditation, Coffee Shop & Cafe, Tropical & Beach,
   Retro & Vintage, Space & Galaxy, Fantasy & Magic, Botanical &
   Greenhouse, Wine & Vineyard, Baby & Nursery, Urban Night), filterable
-  by category pill at the top of the gallery.
+  by category pill.
 - Themes are **palettes**, not fixed scenes: a theme is a list of
   color/brightness "slots" with no hardcoded entity IDs. Slots are assigned
   round-robin across your target lights — so the same theme works on any
   room, on any instance.
-- **Controls panel**: a single collapsible panel holds the Target Lights
-  picker (which lights themes/effects apply to, saved automatically) and
-  the Dynamic Mode toggle — collapsed by default to keep the page compact.
-- **Dynamic Mode**: a global on/off switch (with a speed control). When
-  on, applying a theme doesn't just set your lights once — it slowly and
+- **Controls panel**: a single collapsible section holds the Target Lights
+  picker (which lights themes/effects apply to) and the Dynamic Mode
+  toggle.
+- **Dynamic Mode**: a global on/off switch (with a speed control). When on,
+  applying a theme doesn't just set your lights once — it slowly and
   continuously cycles through the theme's colors, like Hue's dynamic
-  scenes, until you hit Stop or apply something else. When off, Apply is
-  a one-shot static set.
+  scenes, until you hit Stop or apply something else.
 - **Effects**: a separate tab with 9 built-in animated effects across 4
   categories (Flames: Candle, Fireplace · Sparkly: Glisten, Sparkle ·
-  Wavy: Underwater, Cosmos, Sunbeam · Loops: Prism, Opal). Unlike themes,
-  effects are always live — flickering, sparkling, or smoothly cycling —
-  until stopped.
-- A slim banner appears at the top whenever a theme is cycling or an
-  effect is running, with a one-tap **Stop**.
-- **Create your own theme**: pick a set of lights, set them how you want
-  via the HA app/dashboard, then hit "+ New" to capture their current
-  color/brightness as a reusable theme (defaults to your saved target
-  lights, but you can pick different ones for the capture).
-- **Favorites**: star any theme or effect to bookmark it — a "★
-  Favorites" filter shows just your starred items. Favoriting a *theme*
-  also creates/updates a real Home Assistant scene entity
-  (`scene.tl_<name>`), snapshotted onto your current target lights.
-  You *can* add this straight to your dashboard (**Edit Dashboard → Add
-  Card → Button**, pick the scene, and set a Name/Icon in the card's own
-  editor — the entity itself can't be renamed since `scene.create`
-  entities have no `unique_id`), but for real, fully-manageable buttons
-  see the companion integration below.
+  Wavy: Underwater, Cosmos, Sunbeam · Loops: Prism, Opal). Always live —
+  flickering, sparkling, or smoothly cycling — until stopped.
+- **Create your own theme**: pick lights, set them how you want via HA,
+  then hit "+ New" to capture their current color/brightness as a
+  reusable theme.
+- **Favorites → real buttons**: star a theme and it becomes a proper
+  `button` entity under a "Light Theme Library" **device**, with a real
+  `unique_id` — fully renameable, assignable to an area, addable to any
+  dashboard through HA's normal entity settings. (Favoriting also creates
+  a matching HA scene as a byproduct, but the button entity is the
+  intended way to use this — the scene has no such management support
+  since `scene.create` entities can't have a `unique_id`.)
 
-## Companion integration: real buttons for your favorites
-
-The add-on's Favorites scenes work, but Home Assistant can't manage
-their name/icon/area since they lack a `unique_id` (a `scene.create`
-limitation, not fixable from the add-on side). `custom_components/theme_library/`
-is a small companion **integration** that fixes this properly: it polls
-the add-on for your favorited themes and exposes each one as a real
-`button` entity under a "Light Theme Library" **device** — fully
-renameable, assignable to an area, and pressable from any dashboard,
-the same as any other HA entity.
-
-**Requires add-on v0.7.0+.** Earlier versions only exposed the add-on
-over ingress, which Home Assistant Core can't reach directly — Core
-runs with host networking (for LAN device discovery) while the add-on
-runs on Supervisor's internal bridge network, so it can't resolve the
-add-on's container hostname at all. v0.7.0 publishes port 8099 to the
-host so Core can reach it via `localhost:8099`. **This also means the
-add-on's API becomes reachable from anywhere on your LAN, not just
-through HA's authenticated ingress UI** — there's no additional auth
-layer on top of that port. Update the add-on first if you haven't.
-
-**Install via HACS (recommended — entirely from GitHub, no file copying):**
+## Install via HACS (recommended)
 
 1. In HACS: **⋮ (top right) → Custom repositories** → paste
    `https://github.com/snekxs/ha-theme-library`, Category: **Integration**
    → Add.
 2. Find "Light Theme Library" in HACS → **Install**.
-3. Restart Home Assistant Core (Settings → System → Restart, not the
-   add-on).
+3. Restart Home Assistant Core.
 4. **Settings → Devices & Services → Add Integration** → search "Light
-   Theme Library" → accept the default URL (`http://localhost:8099`) →
-   Submit.
-5. A "Light Theme Library" device appears with one button per favorited
-   theme. Add them to your dashboard, rename/re-icon them, assign an
-   area — all through HA's normal entity settings.
+   Theme Library" → Submit (no configuration needed).
+5. A "Themes" panel appears in your sidebar, and a "Light Theme Library"
+   device is created — favorite a theme to get its button.
 
-The repo is tagged (`v0.1.1`) for HACS, but doesn't have a formal
-GitHub *Release* published yet (that's a manual step on GitHub's
-website — Releases → Draft a new release → pick the `v0.1.1` tag →
-Publish). If HACS refuses to install without one, do that first.
+The repo is tagged (`v0.2.0`) for HACS, but doesn't have a formal GitHub
+*Release* published yet (a manual step on GitHub's website — Releases →
+Draft a new release → pick the tag → Publish). If HACS refuses to install
+without one, do that first.
 
-**Install manually instead (no HACS):**
+**Install manually instead (no HACS):** copy `custom_components/theme_library/`
+from this repo into `config/custom_components/theme_library/` on your HA
+instance, then continue from step 3 above.
 
-1. Copy `custom_components/theme_library/` from this repo into
-   `config/custom_components/theme_library/` on your HA instance (same
-   Samba/SSH access as the add-on).
-2. Continue from step 3 above (restart Core, Add Integration).
+## How it works (architecture)
 
-**Current limitations:** only themes get buttons (not effects); un-favoriting
-a theme doesn't remove its button, just marks it unavailable; and this
-hasn't been tested against a live Home Assistant instance yet — if
-setup or button presses fail, the error should point at what's wrong
-(usually connectivity to the add-on), but please report back what you
-see.
+Everything lives in one `custom_components/theme_library/` integration:
 
-## Install via the published repository (recommended)
+- **`storage.py`** — persists themes/target-lights/settings/favorites via
+  HA's own `Store` helper (in `.storage/`, same as any other integration's
+  data — no separate database or files to manage).
+- **`engine.py`** — applies themes/effects by calling `light.turn_on` and
+  `scene.create` directly through `hass.services.async_call`, and runs the
+  dynamic-cycling/effect background loops as HA-tracked async tasks.
+- **`views.py`** — registers the panel's API under `/api/theme_library/*`
+  using HA's `HomeAssistantView`. These require normal HA authentication
+  (unlike a bare add-on API) — the panel passes its session token through
+  automatically.
+- **`www/`** — the actual gallery UI (plain HTML/CSS/JS), served as a
+  static path and wrapped in a small custom sidebar panel (`panel.js`)
+  that hands the iframe an auth token on load.
+- **`button.py`** — one `ButtonEntity` per favorited theme, updated
+  instantly via a dispatcher signal when you favorite/un-favorite (no
+  polling).
 
-1. In Home Assistant: **Settings → Apps → App Store → ⋮ → Repositories**
-   (older versions: **Settings → Add-ons → Add-on Store**), paste
-   `https://github.com/snekxs/ha-theme-library`, save.
-2. "Light Theme Library" appears in the store; install as normal.
-3. Start it and enable "Show in sidebar" — it uses ingress, so it opens
-   inside the HA UI with no extra port/auth setup.
-
-For a one-click add flow, generate a `my.home-assistant.io` add-repository
-link pointing at that URL and share that instead of raw instructions.
-
-## Security notes
-
-- Runs with `homeassistant_api: true` and `hassio_role: homeassistant`
-  only — enough to read light states, call `light.turn_on`, and create
-  scenes via `scene.create` (used by Favorites). No `admin` role, no host
-  network, protection mode stays enabled.
-- As of v0.7.0, port 8099 is published to the host (for the companion
-  integration — see above), which means the add-on's REST API has no
-  authentication of its own and is reachable from anywhere on your LAN,
-  not just through HA. Treat it like any other unauthenticated local
-  service: fine on a typical trusted home network, not something to
-  expose past your router/firewall.
+**Known limitations:** only themes get buttons (not effects); un-favoriting
+doesn't remove a theme's button, just marks it unavailable; the panel's
+auth token is captured once when it loads and isn't refreshed, so if you
+leave the panel open for a very long session API calls may eventually need
+a page reload; and **this hasn't been tested against a live Home Assistant
+instance** — the previous add-on+integration split was tested step by step
+against your real instance, but this full rewrite (in-process API views,
+static panel registration, service calls replacing REST) is new. If setup,
+the panel, or button presses fail, please send screenshots/errors and
+we'll fix it together, same as everything else so far.

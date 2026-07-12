@@ -2,15 +2,9 @@
   "config": {
     "step": {
       "user": {
-        "title": "Connect to Light Theme Library",
-        "description": "Enter the local URL of your Light Theme Library add-on. The default (localhost:8099) works as long as the add-on is running and its port 8099 hasn't been changed. Update the add-on to at least v0.7.0 first — earlier versions don't publish this port and won't be reachable.",
-        "data": {
-          "url": "Add-on URL"
-        }
+        "title": "Set up Light Theme Library",
+        "description": "This adds the Light Theme Library panel to your sidebar and a device with a button for each theme you favorite. Everything runs inside Home Assistant — no separate add-on needed."
       }
-    },
-    "error": {
-      "cannot_connect": "Couldn't reach the add-on at that URL. Make sure it's installed and running."
     },
     "abort": {
       "already_configured": "Light Theme Library is already set up."

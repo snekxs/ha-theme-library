@@ -16,6 +16,7 @@ let activeTab = "themes";
 let activeCategory = "All";
 
 const FAVORITES_FILTER = "__favorites__";
+const AUTH_TOKEN = new URLSearchParams(window.location.search).get("token") || "";
 
 function showToast(msg, isError = false, durationMs = 3000) {
   toast.textContent = msg;
@@ -26,9 +27,11 @@ function showToast(msg, isError = false, durationMs = 3000) {
 }
 
 async function api(path, options = {}) {
-  const res = await fetch(`api/${path}`, {
-    headers: { "Content-Type": "application/json" },
+  const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
+  if (AUTH_TOKEN) headers["Authorization"] = `Bearer ${AUTH_TOKEN}`;
+  const res = await fetch(`/api/theme_library/${path}`, {
     ...options,
+    headers,
   });
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));

@@ -2,40 +2,58 @@ from __future__ import annotations
 
 from homeassistant.components.button import ButtonEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant, callback
+from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceEntryType
+from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity import DeviceInfo
-from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN
-from .coordinator import ThemeLibraryCoordinator
+from .const import DOMAIN, SIGNAL_FAVORITES_CHANGED
+from .engine import ThemeLibraryEngine
+from .storage import ThemeLibraryStorage
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities) -> None:
-    coordinator: ThemeLibraryCoordinator = hass.data[DOMAIN][entry.entry_id]
-    known_ids: set[str] = set()
+    data = hass.data[DOMAIN][entry.entry_id]
+    storage: ThemeLibraryStorage = data["storage"]
+    engine: ThemeLibraryEngine = data["engine"]
 
-    @callback
-    def _sync_entities() -> None:
-        themes = coordinator.data.get("favorite_themes", []) if coordinator.data else []
+    known_ids: set[str] = set()
+    entities_by_id: dict[str, "ThemeButton"] = {}
+
+    async def _sync_entities(*_args) -> None:
+        favorites = await storage.async_load_favorites()
+        themes = await storage.async_load_themes()
+        theme_by_id = {t["id"]: t for t in themes}
+        favorite_ids = set(favorites.get("themes", []))
+
         new_entities = []
-        for theme in themes:
-            if theme["id"] not in known_ids:
-                known_ids.add(theme["id"])
-                new_entities.append(ThemeButton(coordinator, entry, theme))
+        newly_added_ids = set()
+        for theme_id in favorite_ids:
+            theme = theme_by_id.get(theme_id)
+            if theme and theme_id not in known_ids:
+                known_ids.add(theme_id)
+                newly_added_ids.add(theme_id)
+                button = ThemeButton(engine, entry, theme)
+                entities_by_id[theme_id] = button
+                new_entities.append(button)
         if new_entities:
             async_add_entities(new_entities)
-        # Un-favorited themes aren't removed automatically (kept simple for
-        # now) — their button just becomes unavailable, see ThemeButton.available.
 
-    entry.async_on_unload(coordinator.async_add_listener(_sync_entities))
-    _sync_entities()
+        # Only touch entities that were already added in an earlier pass —
+        # ones created just above already start favorited/available.
+        for theme_id, button in entities_by_id.items():
+            if theme_id not in newly_added_ids:
+                button.set_favorited(theme_id in favorite_ids)
+
+    entry.async_on_unload(async_dispatcher_connect(hass, SIGNAL_FAVORITES_CHANGED, _sync_entities))
+    await _sync_entities()
 
 
-class ThemeButton(CoordinatorEntity, ButtonEntity):
-    def __init__(self, coordinator: ThemeLibraryCoordinator, entry: ConfigEntry, theme: dict) -> None:
-        super().__init__(coordinator)
+class ThemeButton(ButtonEntity):
+    def __init__(self, engine: ThemeLibraryEngine, entry: ConfigEntry, theme: dict) -> None:
+        self._engine = engine
         self._theme_id = theme["id"]
+        self._favorited = True
         self._attr_unique_id = f"{entry.entry_id}_{theme['id']}"
         self._attr_name = theme["name"]
         self._attr_icon = "mdi:palette"
@@ -47,12 +65,21 @@ class ThemeButton(CoordinatorEntity, ButtonEntity):
             entry_type=DeviceEntryType.SERVICE,
         )
 
+    def set_favorited(self, favorited: bool) -> None:
+        if favorited != self._favorited:
+            self._favorited = favorited
+            self.async_write_ha_state()
+
     @property
     def available(self) -> bool:
-        if not super().available:
-            return False
-        favorite_ids = {t["id"] for t in self.coordinator.data.get("favorite_themes", [])}
-        return self._theme_id in favorite_ids
+        return self._favorited
 
     async def async_press(self) -> None:
-        await self.coordinator.apply_theme(self._theme_id)
+        themes = await self._engine.storage.async_load_themes()
+        theme = next((t for t in themes if t["id"] == self._theme_id), None)
+        if not theme:
+            return
+        entity_ids = await self._engine.storage.async_load_target_lights()
+        if not entity_ids:
+            return
+        await self._engine.apply_theme(theme, entity_ids)
