@@ -16,6 +16,10 @@ jobs:
       - uses: hacs/action@main
         with:
           category: integration
+          # "brands" requires submitting icons to home-assistant/brands, which
+          # is only needed to get listed in HACS's official default store —
+          # not required to install this as a personal custom repository.
+          ignore: brands
 
   hassfest:
     runs-on: ubuntu-latest
