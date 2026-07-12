@@ -17,11 +17,12 @@ let activeCategory = "All";
 
 const FAVORITES_FILTER = "__favorites__";
 
-function showToast(msg, isError = false) {
+function showToast(msg, isError = false, durationMs = 3000) {
   toast.textContent = msg;
   toast.classList.remove("hidden");
   toast.style.background = isError ? "#c0392b" : "";
-  setTimeout(() => toast.classList.add("hidden"), 3000);
+  clearTimeout(showToast._timer);
+  showToast._timer = setTimeout(() => toast.classList.add("hidden"), durationMs);
 }
 
 async function api(path, options = {}) {
@@ -183,9 +184,13 @@ async function toggleFavorite(item, kind) {
     } else if (kind === "effect") {
       showToast("Added to favorites");
     } else if (res.pinned) {
-      showToast(`Favorited — added ${res.scene_entity_id} to Home Assistant. Add it to your dashboard as a button.`);
+      showToast(
+        `Favorited — created ${res.scene_entity_id} in HA. Tap its ⚙ gear icon to set a nicer name/icon, then add it to your dashboard.`,
+        false,
+        6000
+      );
     } else if (res.pin_error) {
-      showToast(`Favorited, but couldn't pin to dashboard: ${res.pin_error}`, true);
+      showToast(`Favorited, but couldn't pin to dashboard: ${res.pin_error}`, true, 5000);
     } else {
       showToast("Added to favorites");
     }

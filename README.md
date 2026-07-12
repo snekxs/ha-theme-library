@@ -39,11 +39,18 @@ extensible.
 - **Favorites**: star any theme or effect to bookmark it — a "★
   Favorites" filter shows just your starred items. Favoriting a *theme*
   also creates/updates a real Home Assistant scene entity
-  (`scene.theme_library_<name>`), snapshotted onto your current target
-  lights, so you can add it as a one-tap button on your own Lovelace
-  dashboard (**Edit Dashboard → Add Card → Entity/Button**, pick the
-  scene). Un-favoriting just removes the bookmark — the scene entity is
-  left in place since it's harmless and cheap to keep.
+  (`scene.tl_<name>`), snapshotted onto your current target lights, so
+  you can add it as a one-tap button on your own Lovelace dashboard
+  (**Edit Dashboard → Add Card → Entity/Button**, pick the scene).
+  Un-favoriting just removes the bookmark — the scene entity is left in
+  place since it's harmless and cheap to keep.
+  - **One-time cleanup HA makes you do**: scenes created this way
+    (via the `scene.create` service) aren't in HA's entity registry, so
+    HA shows a raw, ugly name/generic icon instead of the theme's actual
+    name. Open the scene's entity dialog and tap the **⚙ gear icon** to
+    give it a proper name/icon — this is a normal HA thing for any
+    dynamically-created entity, not specific to this app, and it's a
+    one-time fix that persists.
 
 ## Install via the published repository (recommended)
 

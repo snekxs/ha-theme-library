@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.6.2
+
+- Shortened the pinned-scene entity ID prefix (`theme_library_` →
+  `tl_`) so it's less likely to get truncated in HA's UI.
+- The "favorited & pinned" toast now tells you to tap the scene
+  entity's ⚙ gear icon to set a proper name/icon — scenes created via
+  `scene.create` aren't in HA's entity registry, so HA shows a raw,
+  unformatted name/generic icon until you do this once. Toasts with
+  longer messages now stay up longer (5–6s) instead of always 3s.
+
 ## 0.6.1
 
 - Fixed scene pinning: the generated scene entity ID was built from the

@@ -325,7 +325,7 @@ async def _pin_theme_scene(theme: dict) -> str:
             "brightness": brightness_255,
         }
 
-    scene_id = f"theme_library_{ha_slug(theme['name'])}"
+    scene_id = f"tl_{ha_slug(theme['name'])}"
     await ha_post("/services/scene/create", {"scene_id": scene_id, "entities": entities})
     return f"scene.{scene_id}"
 
