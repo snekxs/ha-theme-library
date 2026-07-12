@@ -45,15 +45,28 @@ Core itself.
 
 ## Install via HACS (recommended)
 
-1. In HACS: **⋮ (top right) → Custom repositories** → paste
-   `https://github.com/snekxs/ha-theme-library`, Category: **Integration**
-   → Add.
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=snekxs&repository=ha-theme-library&category=integration)
+
+Click the button above (requires HACS already installed, and My Home
+Assistant linked — most instances have this by default) to jump straight
+to the "Add repository" dialog, prefilled. Then:
+
+1. Click **Add** in that dialog.
 2. Find "Light Theme Library" in HACS → **Install**.
 3. Restart Home Assistant Core.
-4. **Settings → Devices & Services → Add Integration** → search "Light
-   Theme Library" → Submit (no configuration needed).
+4. Click the button below (or **Settings → Devices & Services → Add
+   Integration** → search "Light Theme Library") → Submit — no
+   configuration needed.
+
+[![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=theme_library)
+
 5. A "Themes" panel appears in your sidebar, and a "Light Theme Library"
    device is created — favorite a theme to get its button.
+
+**No My Home Assistant link / prefer manual steps:** In HACS: **⋮ (top
+right) → Custom repositories** → paste
+`https://github.com/snekxs/ha-theme-library`, Category: **Integration** →
+Add, then continue from step 2 above.
 
 The repo is tagged (`v0.2.0`) for HACS, but doesn't have a formal GitHub
 *Release* published yet (a manual step on GitHub's website — Releases →
