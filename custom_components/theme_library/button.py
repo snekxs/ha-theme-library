@@ -50,7 +50,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
 
 
 class ThemeButton(ButtonEntity):
-    _attr_has_entity_name = True
+    # Deliberately NOT has_entity_name=True: with multiple buttons sharing
+    # one device, HA composes "{device} {entity}" as the full name (e.g.
+    # "Light Theme Library Sunset Glow"), which is what was truncating to
+    # "Light Theme..." on dashboard tiles. Plain _attr_name is used as the
+    # whole name instead, so it just reads "Sunset Glow".
 
     def __init__(self, engine: ThemeLibraryEngine, entry: ConfigEntry, theme: dict) -> None:
         self._engine = engine
