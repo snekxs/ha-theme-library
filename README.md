@@ -68,10 +68,9 @@ right) → Custom repositories** → paste
 `https://github.com/snekxs/ha-theme-library`, Category: **Integration** →
 Add, then continue from step 2 above.
 
-The repo is tagged (`v0.2.0`) for HACS, but doesn't have a formal GitHub
-*Release* published yet (a manual step on GitHub's website — Releases →
-Draft a new release → pick the tag → Publish). If HACS refuses to install
-without one, do that first.
+Releases are published automatically by GitHub Actions whenever a `v*`
+tag is pushed (see `.github/workflows/release.yml`), so HACS always has
+a proper Release to install from — no manual step needed.
 
 **Install manually instead (no HACS):** copy `custom_components/theme_library/`
 from this repo into `config/custom_components/theme_library/` on your HA
