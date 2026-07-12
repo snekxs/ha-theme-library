@@ -3,6 +3,7 @@ from __future__ import annotations
 from homeassistant.components.button import ButtonEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.device_registry import DeviceEntryType
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity import DeviceInfo
@@ -44,6 +45,24 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
         for theme_id, button in entities_by_id.items():
             if theme_id not in newly_added_ids:
                 button.set_favorited(theme_id in favorite_ids)
+
+        # Force the registry name to exactly the theme name, regardless of
+        # whatever name got stored the first time this entity was ever
+        # registered (has_entity_name composition only applies at that
+        # first registration — it doesn't retroactively fix entities that
+        # already exist in the registry from before this was corrected).
+        registry = er.async_get(hass)
+        for theme_id in known_ids:
+            theme = theme_by_id.get(theme_id)
+            if not theme:
+                continue
+            unique_id = f"{entry.entry_id}_{theme_id}"
+            entity_id = registry.async_get_entity_id("button", DOMAIN, unique_id)
+            if not entity_id:
+                continue
+            reg_entry = registry.async_get(entity_id)
+            if reg_entry and (reg_entry.name is not None or reg_entry.original_name != theme["name"]):
+                registry.async_update_entity(entity_id, name=None, original_name=theme["name"])
 
     entry.async_on_unload(async_dispatcher_connect(hass, SIGNAL_FAVORITES_CHANGED, _sync_entities))
     await _sync_entities()
