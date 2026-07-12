@@ -136,6 +136,13 @@ def slugify(name: str) -> str:
     return slug or "theme"
 
 
+def ha_slug(name: str) -> str:
+    """Slugify for use inside an HA entity_id (object_id part), which only
+    allows lowercase letters, digits, and underscores — no hyphens."""
+    slug = re.sub(r"[^a-z0-9]+", "_", name.lower()).strip("_")
+    return slug or "theme"
+
+
 def hex_to_rgb(color: str):
     color = color.lstrip("#")
     if len(color) != 6:
@@ -318,7 +325,7 @@ async def _pin_theme_scene(theme: dict) -> str:
             "brightness": brightness_255,
         }
 
-    scene_id = f"theme_library_{slugify(theme['name'])}"
+    scene_id = f"theme_library_{ha_slug(theme['name'])}"
     await ha_post("/services/scene/create", {"scene_id": scene_id, "entities": entities})
     return f"scene.{scene_id}"
 
@@ -412,8 +419,17 @@ async def toggle_favorite(kind: str, item_id: str):
                 result["scene_entity_id"] = scene_entity_id
             except HTTPException as e:
                 result["pin_error"] = e.detail
-            except Exception:
+            except httpx.HTTPStatusError as e:
+                try:
+                    body = e.response.json()
+                    message = body.get("message") or str(body)
+                except Exception:
+                    message = e.response.text or str(e)
+                result["pin_error"] = f"Home Assistant rejected the scene ({e.response.status_code}): {message}"
+            except httpx.RequestError:
                 result["pin_error"] = "Couldn't reach Home Assistant to create the scene."
+            except Exception as e:
+                result["pin_error"] = f"Unexpected error creating scene: {e}"
 
     return result
 

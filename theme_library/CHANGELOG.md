@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.6.1
+
+- Fixed scene pinning: the generated scene entity ID was built from the
+  theme's JSON-style slug, which uses hyphens (`sunset-glow`) — not
+  valid in a Home Assistant entity ID, which only allows lowercase
+  letters, digits, and underscores. Scene IDs now use a proper
+  HA-safe slug (`sunset_glow`), so favoriting a theme should now
+  successfully create the pinnable scene.
+- Pin failures now surface the actual error from Home Assistant (status
+  code + message) instead of a generic "couldn't reach" message, so any
+  future failure is actually diagnosable from the toast.
+
 ## 0.6.0
 
 - Removed the Share/community-submission feature entirely: no more
