@@ -38,7 +38,7 @@ class ThemeLibraryStorage:
     # --- Themes: bundled defaults + user local/imported, migrated in place ---
 
     async def async_load_themes(self) -> list:
-        defaults = _load_bundled_json("themes_default.json")
+        defaults = await self.hass.async_add_executor_job(_load_bundled_json, "themes_default.json")
         default_by_id = {d["id"]: d for d in defaults}
 
         stored = await self._themes_store.async_load()
@@ -76,9 +76,11 @@ class ThemeLibraryStorage:
 
     # --- Effects: bundled, read-only ---
 
-    def load_effects(self) -> list:
+    async def async_load_effects(self) -> list:
         if self._effects_cache is None:
-            self._effects_cache = _load_bundled_json("effects_default.json")
+            self._effects_cache = await self.hass.async_add_executor_job(
+                _load_bundled_json, "effects_default.json"
+            )
         return self._effects_cache
 
     # --- Target lights ---

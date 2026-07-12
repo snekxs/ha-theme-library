@@ -109,7 +109,7 @@ class EffectsView(HomeAssistantView):
 
     async def get(self, request):
         _, storage = _get(request.app["hass"])
-        return self.json(storage.load_effects())
+        return self.json(await storage.async_load_effects())
 
 
 class EffectApplyView(HomeAssistantView):
@@ -118,7 +118,7 @@ class EffectApplyView(HomeAssistantView):
 
     async def post(self, request, effect_id):
         engine, storage = _get(request.app["hass"])
-        effects = storage.load_effects()
+        effects = await storage.async_load_effects()
         effect = next((e for e in effects if e["id"] == effect_id), None)
         if not effect:
             return self.json({"detail": "Effect not found"}, status_code=404)
