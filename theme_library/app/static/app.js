@@ -3,10 +3,14 @@ const toast = document.getElementById("toast");
 const targetLightsEl = document.getElementById("target-lights");
 const targetCountEl = document.getElementById("target-count");
 const categoryFiltersEl = document.getElementById("category-filters");
+const createBtn = document.getElementById("create-btn");
 
 let allLights = [];
 let savedTargetIds = [];
 let allThemes = [];
+let allEffects = [];
+let settings = { dynamic_mode: false, dynamic_interval: 8 };
+let activeTab = "themes";
 let activeCategory = "All";
 
 function showToast(msg, isError = false) {
@@ -28,46 +32,62 @@ async function api(path, options = {}) {
   return res.status === 204 ? null : res.json();
 }
 
-function swatchHtml(slots) {
-  return slots
-    .map((s) => `<span style="background:${s.color}"></span>`)
+function getSwatchColors(item) {
+  if (item.slots) return item.slots.map((s) => s.color);
+  if (item.colors) return item.colors;
+  if (item.base_color) return [item.base_color];
+  return ["#888"];
+}
+
+function swatchHtml(item) {
+  return getSwatchColors(item)
+    .map((c) => `<span style="background:${c}"></span>`)
     .join("");
 }
 
-function themeCard(theme) {
+function currentList() {
+  return activeTab === "themes" ? allThemes : allEffects;
+}
+
+function itemCard(item, kind) {
   const el = document.createElement("div");
   el.className = "card";
+  const tags = item.tags || [];
   el.innerHTML = `
-    <div class="swatch">${swatchHtml(theme.slots)}</div>
+    <div class="swatch">${swatchHtml(item)}</div>
     <div class="card-body">
-      <span class="category-badge">${theme.category || "Custom"}</span>
-      <h3>${theme.name}</h3>
-      <p>${theme.description || ""}</p>
-      <div class="tags">${(theme.tags || []).map((t) => `<span class="tag">${t}</span>`).join("")}</div>
+      <span class="category-badge">${item.category || "Custom"}</span>
+      <h3>${item.name}</h3>
+      <p>${item.description || ""}</p>
+      <div class="tags">${tags.map((t) => `<span class="tag">${t}</span>`).join("")}</div>
       <div class="card-actions">
         <button class="btn btn-primary apply-btn">Apply</button>
-        <button class="btn share-btn" title="Submit to community library">Share</button>
-        ${theme.source !== "bundled" ? '<button class="btn btn-icon btn-danger delete-btn" title="Delete">Del</button>' : ""}
+        ${kind === "theme" ? '<button class="btn share-btn" title="Submit to community library">Share</button>' : ""}
+        ${kind === "theme" && item.source !== "bundled" ? '<button class="btn btn-icon btn-danger delete-btn" title="Delete">Del</button>' : ""}
       </div>
     </div>
   `;
-  el.querySelector(".apply-btn").addEventListener("click", () => applyTheme(theme));
-  el.querySelector(".share-btn").addEventListener("click", () => shareTheme(theme));
+  el.querySelector(".apply-btn").addEventListener("click", () =>
+    kind === "theme" ? applyTheme(item) : applyEffect(item)
+  );
+  const shareBtn = el.querySelector(".share-btn");
+  if (shareBtn) shareBtn.addEventListener("click", () => shareTheme(item));
   const delBtn = el.querySelector(".delete-btn");
-  if (delBtn) delBtn.addEventListener("click", () => deleteTheme(theme));
+  if (delBtn) delBtn.addEventListener("click", () => deleteTheme(item));
   return el;
 }
 
 function renderGrid() {
   grid.innerHTML = "";
+  const kind = activeTab === "themes" ? "theme" : "effect";
   const visible = activeCategory === "All"
-    ? allThemes
-    : allThemes.filter((t) => (t.category || "Custom") === activeCategory);
-  visible.forEach((theme) => grid.appendChild(themeCard(theme)));
+    ? currentList()
+    : currentList().filter((t) => (t.category || "Custom") === activeCategory);
+  visible.forEach((item) => grid.appendChild(itemCard(item, kind)));
 }
 
 function renderCategoryFilters() {
-  const categories = ["All", ...new Set(allThemes.map((t) => t.category || "Custom"))];
+  const categories = ["All", ...new Set(currentList().map((t) => t.category || "Custom"))];
   categoryFiltersEl.innerHTML = "";
   categories.forEach((cat) => {
     const btn = document.createElement("button");
@@ -81,25 +101,42 @@ function renderCategoryFilters() {
     categoryFiltersEl.appendChild(btn);
   });
 
-  const datalist = document.getElementById("category-options");
-  datalist.innerHTML = categories
-    .filter((c) => c !== "All")
-    .map((c) => `<option value="${c}"></option>`)
-    .join("");
+  if (activeTab === "themes") {
+    const datalist = document.getElementById("category-options");
+    datalist.innerHTML = categories
+      .filter((c) => c !== "All")
+      .map((c) => `<option value="${c}"></option>`)
+      .join("");
+  }
 }
 
 async function loadThemes() {
   allThemes = await api("themes");
-  renderCategoryFilters();
-  renderGrid();
 }
+
+async function loadEffects() {
+  allEffects = await api("effects");
+}
+
+document.querySelectorAll(".tab").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    activeTab = btn.dataset.tab;
+    activeCategory = "All";
+    document.querySelectorAll(".tab").forEach((b) => b.classList.toggle("active", b === btn));
+    createBtn.classList.toggle("hidden", activeTab !== "themes");
+    renderCategoryFilters();
+    renderGrid();
+  });
+});
 
 async function deleteTheme(theme) {
   if (!confirm(`Delete "${theme.name}"?`)) return;
   try {
     await api(`themes/${theme.id}`, { method: "DELETE" });
     showToast("Theme deleted");
-    loadThemes();
+    await loadThemes();
+    renderCategoryFilters();
+    renderGrid();
   } catch (e) {
     showToast(e.message, true);
   }
@@ -116,25 +153,98 @@ async function shareTheme(theme) {
 
 async function applyTheme(theme) {
   if (!savedTargetIds.length) {
-    showToast("Select your target lights above first", true);
+    showToast("Select your target lights in Controls first", true);
     return;
   }
   try {
-    await api(`themes/${theme.id}/apply`, {
+    const res = await api(`themes/${theme.id}/apply`, {
       method: "POST",
       body: JSON.stringify({ entity_ids: savedTargetIds }),
     });
-    showToast(`Applied "${theme.name}"`);
+    showToast(res.dynamic ? `Cycling "${theme.name}"` : `Applied "${theme.name}"`);
+    refreshRunningStatus();
   } catch (e) {
     showToast(e.message, true);
   }
 }
 
+async function applyEffect(effect) {
+  if (!savedTargetIds.length) {
+    showToast("Select your target lights in Controls first", true);
+    return;
+  }
+  try {
+    await api(`effects/${effect.id}/apply`, {
+      method: "POST",
+      body: JSON.stringify({ entity_ids: savedTargetIds }),
+    });
+    showToast(`Started "${effect.name}"`);
+    refreshRunningStatus();
+  } catch (e) {
+    showToast(e.message, true);
+  }
+}
+
+// --- Running banner ---
+
+const runningBanner = document.getElementById("running-banner");
+const runningText = document.getElementById("running-text");
+
+async function refreshRunningStatus() {
+  try {
+    const status = await api("dynamic/status");
+    if (status.running) {
+      runningText.textContent = status.kind === "theme"
+        ? `Cycling: ${status.name}`
+        : `Effect: ${status.name}`;
+      runningBanner.classList.remove("hidden");
+    } else {
+      runningBanner.classList.add("hidden");
+    }
+  } catch (e) {
+    // non-critical, ignore
+  }
+}
+
+document.getElementById("running-stop").addEventListener("click", async () => {
+  try {
+    await api("dynamic/stop", { method: "POST" });
+    refreshRunningStatus();
+  } catch (e) {
+    showToast(e.message, true);
+  }
+});
+
+// --- Controls bar (Target Lights + Dynamic Mode) ---
+
+const controlsBarEl = document.getElementById("controls-bar");
+const controlsToggleEl = document.getElementById("controls-toggle");
+const controlsSummaryEl = document.getElementById("controls-summary");
+const dynamicToggleEl = document.getElementById("dynamic-toggle");
+const dynamicIntervalEl = document.getElementById("dynamic-interval");
+
 function updateTargetCount() {
   targetCountEl.textContent = savedTargetIds.length
     ? `${savedTargetIds.length} selected`
     : "none selected";
+  updateControlsSummary();
 }
+
+function updateControlsSummary() {
+  const lightsPart = `${savedTargetIds.length} light${savedTargetIds.length === 1 ? "" : "s"}`;
+  const dynamicPart = `Dynamic ${settings.dynamic_mode ? "On" : "Off"}`;
+  controlsSummaryEl.textContent = `${lightsPart} · ${dynamicPart}`;
+}
+
+function setControlsCollapsed(collapsed) {
+  controlsBarEl.classList.toggle("collapsed", collapsed);
+  controlsToggleEl.setAttribute("aria-expanded", String(!collapsed));
+  localStorage.setItem("controlsCollapsed", collapsed ? "1" : "0");
+}
+
+controlsToggleEl.addEventListener("click", () => {
+  setControlsCollapsed(!controlsBarEl.classList.contains("collapsed"));
+});
 
 function renderTargetLights() {
   targetLightsEl.innerHTML = "";
@@ -162,6 +272,32 @@ async function onTargetLightsChanged() {
   }
 }
 
+dynamicToggleEl.addEventListener("change", async () => {
+  try {
+    settings = await api("settings", {
+      method: "POST",
+      body: JSON.stringify({ dynamic_mode: dynamicToggleEl.checked }),
+    });
+    updateControlsSummary();
+    refreshRunningStatus();
+  } catch (e) {
+    showToast(e.message, true);
+  }
+});
+
+dynamicIntervalEl.addEventListener("change", async () => {
+  const value = parseInt(dynamicIntervalEl.value, 10);
+  try {
+    settings = await api("settings", {
+      method: "POST",
+      body: JSON.stringify({ dynamic_interval: value }),
+    });
+  } catch (e) {
+    showToast(e.message, true);
+    dynamicIntervalEl.value = settings.dynamic_interval;
+  }
+});
+
 function renderLightCheckboxes(container, lights, checkedIds) {
   container.innerHTML = "";
   lights.forEach((light) => {
@@ -180,7 +316,7 @@ function getCheckedEntityIds(container) {
 const createModal = document.getElementById("create-modal");
 const createLightsEl = document.getElementById("create-lights");
 
-document.getElementById("create-btn").addEventListener("click", () => {
+createBtn.addEventListener("click", () => {
   document.getElementById("create-name").value = "";
   document.getElementById("create-desc").value = "";
   document.getElementById("create-category").value = "";
@@ -210,7 +346,9 @@ document.getElementById("create-confirm").addEventListener("click", async () => 
     });
     showToast("Theme saved");
     createModal.classList.add("hidden");
-    loadThemes();
+    await loadThemes();
+    renderCategoryFilters();
+    renderGrid();
   } catch (e) {
     showToast(e.message, true);
   }
@@ -222,29 +360,32 @@ document.querySelectorAll("[data-close]").forEach((btn) => {
   });
 });
 
-const targetBarEl = document.getElementById("target-bar");
-const targetToggleEl = document.getElementById("target-toggle");
-
-function setTargetBarCollapsed(collapsed) {
-  targetBarEl.classList.toggle("collapsed", collapsed);
-  targetToggleEl.setAttribute("aria-expanded", String(!collapsed));
-  localStorage.setItem("targetLightsCollapsed", collapsed ? "1" : "0");
-}
-
-targetToggleEl.addEventListener("click", () => {
-  setTargetBarCollapsed(!targetBarEl.classList.contains("collapsed"));
-});
-
-setTargetBarCollapsed(localStorage.getItem("targetLightsCollapsed") === "1");
-
 async function init() {
+  setControlsCollapsed(localStorage.getItem("controlsCollapsed") !== "0");
+
   try {
-    [allLights, savedTargetIds] = await Promise.all([api("lights"), api("target-lights")]);
+    [allLights, savedTargetIds, settings] = await Promise.all([
+      api("lights"),
+      api("target-lights"),
+      api("settings"),
+    ]);
     renderTargetLights();
+    dynamicToggleEl.checked = !!settings.dynamic_mode;
+    dynamicIntervalEl.value = settings.dynamic_interval;
+    updateControlsSummary();
   } catch (e) {
     showToast(e.message, true);
   }
-  loadThemes().catch((e) => showToast(e.message, true));
+
+  try {
+    await Promise.all([loadThemes(), loadEffects()]);
+    renderCategoryFilters();
+    renderGrid();
+  } catch (e) {
+    showToast(e.message, true);
+  }
+
+  refreshRunningStatus();
 }
 
 init();

@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.5.0
+
+- Added **Dynamic Mode**: a global toggle (with a speed control) that
+  makes theme Apply continuously cycle colors instead of setting them
+  once, until stopped or replaced.
+- Added an **Effects** tab: 9 built-in animated effects (flicker,
+  sparkle, slow color waves, smooth rainbow loops) across 4 categories —
+  Flames, Sparkly, Wavy, Loops. Effects are always live, unlike static
+  themes.
+- Added a running-status banner with a one-tap Stop, shown whenever a
+  theme is cycling or an effect is active.
+- Condensed the UI: Target Lights and Dynamic Mode now live in one
+  collapsible Controls panel (collapsed by default), category pills
+  scroll horizontally instead of wrapping into a wall of pills, and
+  cards/spacing are tighter on both mobile and desktop.
+- Background theme-cycling/effect calls to Home Assistant now fail
+  silently on transient errors instead of killing the whole cycle.
+
 ## 0.4.0
 
 - Split "Lo-Fi & Loft" into two separate categories — **Lo-Fi** and

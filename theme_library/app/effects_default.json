@@ -1,0 +1,83 @@
+[
+  {
+    "id": "candle",
+    "name": "Candle",
+    "category": "Flames",
+    "description": "Warm, gentle flicker like a candle flame.",
+    "kind": "flicker",
+    "base_color": "#ffb347",
+    "params": { "brightness_base": 45, "brightness_swing": 15, "tick_seconds": 0.4 }
+  },
+  {
+    "id": "fireplace",
+    "name": "Fireplace",
+    "category": "Flames",
+    "description": "Deeper, more dramatic flicker like a wood fire.",
+    "kind": "flicker",
+    "base_color": "#ff6a1a",
+    "params": { "brightness_base": 55, "brightness_swing": 30, "tick_seconds": 0.35 }
+  },
+  {
+    "id": "glisten",
+    "name": "Glisten",
+    "category": "Sparkly",
+    "description": "Warm gold with intermittent bright glints, like light on water.",
+    "kind": "sparkle",
+    "base_color": "#f0c869",
+    "params": { "brightness_base": 55, "brightness_swing": 20, "tick_seconds": 0.6 }
+  },
+  {
+    "id": "sparkle",
+    "name": "Sparkle",
+    "category": "Sparkly",
+    "description": "Rapid bright flashes over a dim warm base.",
+    "kind": "sparkle",
+    "base_color": "#fff1c1",
+    "params": { "brightness_base": 30, "brightness_swing": 20, "tick_seconds": 0.3 }
+  },
+  {
+    "id": "underwater",
+    "name": "Underwater",
+    "category": "Wavy",
+    "description": "Slow, smooth wave through cool blues and teals.",
+    "kind": "wave",
+    "colors": ["#1b6ca8", "#22a6b3", "#48cae4"],
+    "params": { "brightness_base": 55, "brightness_swing": 12, "tick_seconds": 3 }
+  },
+  {
+    "id": "cosmos",
+    "name": "Cosmos",
+    "category": "Wavy",
+    "description": "Slow color wave through deep purple, blue, and gold.",
+    "kind": "wave",
+    "colors": ["#4b0082", "#1e3a8a", "#d4af37"],
+    "params": { "brightness_base": 50, "brightness_swing": 12, "tick_seconds": 3.5 }
+  },
+  {
+    "id": "sunbeam",
+    "name": "Sunbeam",
+    "category": "Wavy",
+    "description": "Warm light that slowly swells and fades, like sun through clouds.",
+    "kind": "wave",
+    "colors": ["#ffb347", "#ffd97d"],
+    "params": { "brightness_base": 55, "brightness_swing": 30, "tick_seconds": 4 }
+  },
+  {
+    "id": "prism",
+    "name": "Prism",
+    "category": "Loops",
+    "description": "Smooth, continuous rainbow color cycle.",
+    "kind": "loop",
+    "colors": ["#ff0044", "#ff8800", "#ffee00", "#33ff77", "#00ccff", "#7733ff", "#ff00cc"],
+    "params": { "brightness_base": 70, "tick_seconds": 2.5 }
+  },
+  {
+    "id": "opal",
+    "name": "Opal",
+    "category": "Loops",
+    "description": "Soft pastel color cycle, like opal iridescence.",
+    "kind": "loop",
+    "colors": ["#f3c4d8", "#c4e0f3", "#d8f3c4", "#f3ecc4", "#e0c4f3"],
+    "params": { "brightness_base": 55, "tick_seconds": 3 }
+  }
+]

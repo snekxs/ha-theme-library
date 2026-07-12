@@ -1,5 +1,8 @@
+import asyncio
 import json
+import math
 import os
+import random
 import re
 import shutil
 import urllib.parse
@@ -16,6 +19,9 @@ DATA_DIR = Path(os.environ.get("THEME_LIBRARY_DATA_DIR", "/data"))
 THEMES_FILE = DATA_DIR / "themes.json"
 DEFAULT_THEMES_FILE = APP_DIR / "themes_default.json"
 TARGET_LIGHTS_FILE = DATA_DIR / "target_lights.json"
+EFFECTS_FILE = APP_DIR / "effects_default.json"
+SETTINGS_FILE = DATA_DIR / "settings.json"
+DEFAULT_SETTINGS = {"dynamic_mode": False, "dynamic_interval": 8}
 
 SUPERVISOR_TOKEN = os.environ.get("SUPERVISOR_TOKEN", "")
 HA_API_BASE = "http://supervisor/core/api"
@@ -102,6 +108,17 @@ def save_target_lights(entity_ids: list):
     TARGET_LIGHTS_FILE.write_text(json.dumps(entity_ids, indent=2))
 
 
+def load_settings() -> dict:
+    if not SETTINGS_FILE.exists():
+        return dict(DEFAULT_SETTINGS)
+    return {**DEFAULT_SETTINGS, **json.loads(SETTINGS_FILE.read_text())}
+
+
+def save_settings(settings: dict):
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    SETTINGS_FILE.write_text(json.dumps(settings, indent=2))
+
+
 def slugify(name: str) -> str:
     slug = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
     return slug or "theme"
@@ -129,6 +146,101 @@ def validate_theme_payload(name: str, slots: list):
         pct = slot.get("brightness_pct", 100)
         if not isinstance(pct, (int, float)) or not (0 <= pct <= 100):
             raise HTTPException(400, "brightness_pct must be 0-100")
+
+
+# Single background task, since the add-on runs as one process/one event
+# loop (uvicorn with no extra workers) — only one animated thing (a
+# dynamically-cycling theme, or an effect) runs at a time, same as a real
+# light only showing one live pattern at once.
+_dynamic_task: Optional[asyncio.Task] = None
+_dynamic_kind: Optional[str] = None  # "theme" or "effect"
+_dynamic_name: Optional[str] = None
+
+
+async def _safe_ha_post(path: str, body: dict):
+    # A background cycle shouldn't die because of one flaky HA API call.
+    try:
+        await ha_post(path, body)
+    except Exception:
+        pass
+
+
+async def _theme_cycle_loop(theme: dict, entity_ids: list, interval: float):
+    slots = theme["slots"]
+    offset = 0
+    while True:
+        for i, entity_id in enumerate(entity_ids):
+            slot = slots[(i + offset) % len(slots)]
+            rgb = hex_to_rgb(slot["color"])
+            body = {
+                "entity_id": entity_id,
+                "rgb_color": rgb,
+                "brightness_pct": slot.get("brightness_pct", 100),
+                "transition": interval,
+            }
+            await _safe_ha_post("/services/light/turn_on", body)
+        offset += 1
+        await asyncio.sleep(interval)
+
+
+async def _effect_loop(effect: dict, entity_ids: list):
+    kind = effect["kind"]
+    params = effect.get("params", {})
+    tick = params.get("tick_seconds", 1)
+    brightness_base = params.get("brightness_base", 55)
+
+    if kind in ("flicker", "sparkle"):
+        base_rgb = hex_to_rgb(effect["base_color"])
+        swing = params.get("brightness_swing", 15)
+        while True:
+            for entity_id in entity_ids:
+                if kind == "flicker":
+                    pct = max(5, min(100, brightness_base + random.randint(-swing, swing)))
+                    transition = 0.2
+                else:  # sparkle
+                    flash = random.random() < 0.25
+                    pct = 100 if flash else max(5, brightness_base - swing)
+                    transition = 0.15
+                body = {
+                    "entity_id": entity_id,
+                    "rgb_color": base_rgb,
+                    "brightness_pct": pct,
+                    "transition": transition,
+                }
+                await _safe_ha_post("/services/light/turn_on", body)
+            await asyncio.sleep(tick)
+    else:  # "wave" or "loop"
+        colors = effect["colors"]
+        swing = params.get("brightness_swing", 0)
+        step = 0
+        while True:
+            for i, entity_id in enumerate(entity_ids):
+                rgb = hex_to_rgb(colors[(i + step) % len(colors)])
+                pct = brightness_base
+                if swing:
+                    pct = max(5, min(100, brightness_base + swing * math.sin(step / 3)))
+                body = {
+                    "entity_id": entity_id,
+                    "rgb_color": rgb,
+                    "brightness_pct": round(pct),
+                    "transition": tick,
+                }
+                await _safe_ha_post("/services/light/turn_on", body)
+            step += 1
+            await asyncio.sleep(tick)
+
+
+async def _stop_dynamic():
+    global _dynamic_task, _dynamic_kind, _dynamic_name
+    if _dynamic_task is not None and not _dynamic_task.done():
+        _dynamic_task.cancel()
+        try:
+            await _dynamic_task
+        except asyncio.CancelledError:
+            pass
+    _dynamic_task = None
+    _dynamic_kind = None
+    _dynamic_name = None
 
 
 class Slot(BaseModel):
@@ -160,6 +272,11 @@ class TargetLightsUpdate(BaseModel):
     entity_ids: list[str]
 
 
+class SettingsUpdate(BaseModel):
+    dynamic_mode: Optional[bool] = None
+    dynamic_interval: Optional[int] = None
+
+
 @app.get("/api/lights")
 async def list_lights():
     states = await ha_get("/states")
@@ -183,6 +300,67 @@ def get_target_lights():
 def set_target_lights(payload: TargetLightsUpdate):
     save_target_lights(payload.entity_ids)
     return payload.entity_ids
+
+
+@app.get("/api/settings")
+def get_settings():
+    return load_settings()
+
+
+@app.post("/api/settings")
+async def update_settings(payload: SettingsUpdate):
+    settings = load_settings()
+    if payload.dynamic_mode is not None:
+        settings["dynamic_mode"] = payload.dynamic_mode
+        if not payload.dynamic_mode:
+            await _stop_dynamic()
+    if payload.dynamic_interval is not None:
+        if not (2 <= payload.dynamic_interval <= 120):
+            raise HTTPException(400, "dynamic_interval must be between 2 and 120 seconds")
+        settings["dynamic_interval"] = payload.dynamic_interval
+    save_settings(settings)
+    return settings
+
+
+@app.get("/api/dynamic/status")
+def dynamic_status():
+    running = _dynamic_task is not None and not _dynamic_task.done()
+    return {
+        "running": running,
+        "kind": _dynamic_kind if running else None,
+        "name": _dynamic_name if running else None,
+    }
+
+
+@app.post("/api/dynamic/stop")
+async def stop_dynamic():
+    await _stop_dynamic()
+    return {"running": False}
+
+
+@app.get("/api/effects")
+def list_effects():
+    return json.loads(EFFECTS_FILE.read_text())
+
+
+@app.post("/api/effects/{effect_id}/apply")
+async def apply_effect(effect_id: str, payload: ApplyRequest):
+    global _dynamic_task, _dynamic_kind, _dynamic_name
+
+    effects = json.loads(EFFECTS_FILE.read_text())
+    effect = next((e for e in effects if e["id"] == effect_id), None)
+    if not effect:
+        raise HTTPException(404, "Effect not found")
+
+    entity_ids = payload.entity_ids if payload.entity_ids else load_target_lights()
+    if not entity_ids:
+        raise HTTPException(400, "No target lights selected. Pick your target lights at the top of the page first.")
+
+    await _stop_dynamic()
+    _dynamic_task = asyncio.create_task(_effect_loop(effect, entity_ids))
+    _dynamic_kind = "effect"
+    _dynamic_name = effect["name"]
+    return {"dynamic": True, "kind": "effect", "name": effect["name"]}
 
 
 @app.get("/api/themes")
@@ -246,6 +424,8 @@ async def capture_theme(payload: CaptureRequest):
 
 @app.post("/api/themes/{theme_id}/apply")
 async def apply_theme(theme_id: str, payload: ApplyRequest):
+    global _dynamic_task, _dynamic_kind, _dynamic_name
+
     themes = load_themes()
     theme = next((t for t in themes if t["id"] == theme_id), None)
     if not theme:
@@ -254,6 +434,16 @@ async def apply_theme(theme_id: str, payload: ApplyRequest):
     entity_ids = payload.entity_ids if payload.entity_ids else load_target_lights()
     if not entity_ids:
         raise HTTPException(400, "No target lights selected. Pick your target lights at the top of the page first.")
+
+    settings = load_settings()
+    await _stop_dynamic()
+
+    if settings.get("dynamic_mode"):
+        interval = settings.get("dynamic_interval", 8)
+        _dynamic_task = asyncio.create_task(_theme_cycle_loop(theme, entity_ids, interval))
+        _dynamic_kind = "theme"
+        _dynamic_name = theme["name"]
+        return {"dynamic": True, "kind": "theme", "name": theme["name"]}
 
     slots = theme["slots"]
     results = []
@@ -267,7 +457,7 @@ async def apply_theme(theme_id: str, payload: ApplyRequest):
         }
         await ha_post("/services/light/turn_on", body)
         results.append(entity_id)
-    return {"applied_to": results}
+    return {"dynamic": False, "applied_to": results}
 
 
 @app.delete("/api/themes/{theme_id}")

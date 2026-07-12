@@ -17,12 +17,23 @@ extensible and shareable.
   color/brightness "slots" with no hardcoded entity IDs. Slots are assigned
   round-robin across your target lights — so the same theme works on any
   room, on any instance.
-- **Target Lights bar**: pick which lights themes apply to once, at the top
-  of the page (collapsible, so it stays out of the way once set) — the
-  selection is saved automatically. Clicking a theme's **Apply** button
-  fires immediately against that saved selection; no picker per click.
-- **Create your own**: pick a set of lights, set them how you want via the
-  HA app/dashboard, then hit "New Theme" to capture their current
+- **Controls panel**: a single collapsible panel holds the Target Lights
+  picker (which lights themes/effects apply to, saved automatically) and
+  the Dynamic Mode toggle — collapsed by default to keep the page compact.
+- **Dynamic Mode**: a global on/off switch (with a speed control). When
+  on, applying a theme doesn't just set your lights once — it slowly and
+  continuously cycles through the theme's colors, like Hue's dynamic
+  scenes, until you hit Stop or apply something else. When off, Apply is
+  a one-shot static set.
+- **Effects**: a separate tab with 9 built-in animated effects across 4
+  categories (Flames: Candle, Fireplace · Sparkly: Glisten, Sparkle ·
+  Wavy: Underwater, Cosmos, Sunbeam · Loops: Prism, Opal). Unlike themes,
+  effects are always live — flickering, sparkling, or smoothly cycling —
+  until stopped.
+- A slim banner appears at the top whenever a theme is cycling or an
+  effect is running, with a one-tap **Stop**.
+- **Create your own theme**: pick a set of lights, set them how you want
+  via the HA app/dashboard, then hit "+ New" to capture their current
   color/brightness as a reusable theme (defaults to your saved target
   lights, but you can pick different ones for the capture).
 - **Share to a community repo**: hitting "Share" on a theme opens a

@@ -9,20 +9,52 @@
 <body>
   <header class="topbar">
     <h1>Light Theme Library</h1>
-    <button id="create-btn" class="btn btn-primary">+ New Theme</button>
+    <button id="create-btn" class="btn btn-primary">+ New</button>
   </header>
 
-  <section id="target-bar" class="target-bar">
-    <button id="target-toggle" class="target-bar-header" aria-expanded="true">
-      <h2>Target Lights</h2>
-      <span id="target-count" class="muted"></span>
-      <span id="target-chevron" class="chevron">&#9662;</span>
+  <div id="running-banner" class="running-banner hidden">
+    <span id="running-text"></span>
+    <button id="running-stop" class="btn btn-icon">Stop</button>
+  </div>
+
+  <section id="controls-bar" class="controls-bar collapsed">
+    <button id="controls-toggle" class="controls-bar-header" aria-expanded="false">
+      <span>Controls</span>
+      <span id="controls-summary" class="muted"></span>
+      <span id="controls-chevron" class="chevron">&#9662;</span>
     </button>
-    <div id="target-bar-body">
-      <p class="muted">Themes apply to whatever's checked here. Selection is saved automatically.</p>
-      <div id="target-lights" class="light-list light-list-horizontal"></div>
+    <div id="controls-body">
+      <div class="control-block">
+        <div class="control-row">
+          <span class="control-label">Target Lights</span>
+          <span id="target-count" class="muted"></span>
+        </div>
+        <p class="muted small">Themes and effects apply to whatever's checked here.</p>
+        <div id="target-lights" class="light-list light-list-horizontal"></div>
+      </div>
+
+      <div class="control-block">
+        <div class="control-row">
+          <label class="switch-row">
+            <input type="checkbox" id="dynamic-toggle" />
+            <span class="switch"></span>
+            <span>Dynamic Mode</span>
+          </label>
+          <label class="speed-row">
+            Speed
+            <input type="number" id="dynamic-interval" min="2" max="120" step="1" value="8" />
+            <span class="muted small">sec</span>
+          </label>
+        </div>
+        <p class="muted small">When on, applying a theme slowly cycles its colors instead of setting them once.</p>
+      </div>
     </div>
   </section>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="themes">Themes</button>
+    <button class="tab" data-tab="effects">Effects</button>
+  </div>
 
   <div id="category-filters" class="category-filters"></div>
 
