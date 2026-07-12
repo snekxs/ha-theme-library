@@ -57,19 +57,32 @@ the add-on for your favorited themes and exposes each one as a real
 renameable, assignable to an area, and pressable from any dashboard,
 the same as any other HA entity.
 
-**Install:**
+**Install via HACS (recommended — entirely from GitHub, no file copying):**
+
+1. In HACS: **⋮ (top right) → Custom repositories** → paste
+   `https://github.com/snekxs/ha-theme-library`, Category: **Integration**
+   → Add.
+2. Find "Light Theme Library" in HACS → **Install**.
+3. Restart Home Assistant Core (Settings → System → Restart, not the
+   add-on).
+4. **Settings → Devices & Services → Add Integration** → search "Light
+   Theme Library" → accept the default URL (works as long as the
+   add-on's slug is unchanged) → Submit.
+5. A "Light Theme Library" device appears with one button per favorited
+   theme. Add them to your dashboard, rename/re-icon them, assign an
+   area — all through HA's normal entity settings.
+
+The repo is tagged (`v0.1.0`) for HACS, but doesn't have a formal
+GitHub *Release* published yet (that's a manual step on GitHub's
+website — Releases → Draft a new release → pick the `v0.1.0` tag →
+Publish). If HACS refuses to install without one, do that first.
+
+**Install manually instead (no HACS):**
 
 1. Copy `custom_components/theme_library/` from this repo into
    `config/custom_components/theme_library/` on your HA instance (same
    Samba/SSH access as the add-on).
-2. Restart Home Assistant Core (Settings → System → Restart, not the
-   add-on).
-3. **Settings → Devices & Services → Add Integration** → search "Light
-   Theme Library" → accept the default URL (works as long as the
-   add-on's slug is unchanged) → Submit.
-4. A "Light Theme Library" device appears with one button per favorited
-   theme. Add them to your dashboard, rename/re-icon them, assign an
-   area — all through HA's normal entity settings.
+2. Continue from step 3 above (restart Core, Add Integration).
 
 **Current limitations:** only themes get buttons (not effects); un-favoriting
 a theme doesn't remove its button, just marks it unavailable; and this
