@@ -1,0 +1,177 @@
+const grid = document.getElementById("grid");
+const toast = document.getElementById("toast");
+
+let currentApplyThemeId = null;
+
+function showToast(msg, isError = false) {
+  toast.textContent = msg;
+  toast.classList.remove("hidden");
+  toast.style.background = isError ? "#c0392b" : "";
+  setTimeout(() => toast.classList.add("hidden"), 3000);
+}
+
+async function api(path, options = {}) {
+  const res = await fetch(`api/${path}`, {
+    headers: { "Content-Type": "application/json" },
+    ...options,
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({}));
+    throw new Error(body.detail || `Request failed (${res.status})`);
+  }
+  return res.status === 204 ? null : res.json();
+}
+
+function swatchHtml(slots) {
+  return slots
+    .map((s) => `<span style="background:${s.color}"></span>`)
+    .join("");
+}
+
+function themeCard(theme) {
+  const el = document.createElement("div");
+  el.className = "card";
+  el.innerHTML = `
+    <div class="swatch">${swatchHtml(theme.slots)}</div>
+    <div class="card-body">
+      <h3>${theme.name}</h3>
+      <p>${theme.description || ""}</p>
+      <div class="tags">${(theme.tags || []).map((t) => `<span class="tag">${t}</span>`).join("")}</div>
+      <div class="card-actions">
+        <button class="btn btn-primary apply-btn">Apply</button>
+        <button class="btn share-btn" title="Submit to community library">Share</button>
+        ${theme.source !== "bundled" ? '<button class="btn btn-icon btn-danger delete-btn" title="Delete">Del</button>' : ""}
+      </div>
+    </div>
+  `;
+  el.querySelector(".apply-btn").addEventListener("click", () => openApplyModal(theme));
+  el.querySelector(".share-btn").addEventListener("click", () => shareTheme(theme));
+  const delBtn = el.querySelector(".delete-btn");
+  if (delBtn) delBtn.addEventListener("click", () => deleteTheme(theme));
+  return el;
+}
+
+async function loadThemes() {
+  const themes = await api("themes");
+  grid.innerHTML = "";
+  themes.forEach((theme) => grid.appendChild(themeCard(theme)));
+}
+
+async function deleteTheme(theme) {
+  if (!confirm(`Delete "${theme.name}"?`)) return;
+  try {
+    await api(`themes/${theme.id}`, { method: "DELETE" });
+    showToast("Theme deleted");
+    loadThemes();
+  } catch (e) {
+    showToast(e.message, true);
+  }
+}
+
+async function shareTheme(theme) {
+  try {
+    const { url } = await api(`themes/${theme.id}/submit-url`);
+    window.open(url, "_blank", "noopener");
+  } catch (e) {
+    showToast(e.message, true);
+  }
+}
+
+async function fetchLights() {
+  return api("lights");
+}
+
+function renderLightCheckboxes(container, lights, allChecked = true) {
+  container.innerHTML = "";
+  lights.forEach((light) => {
+    const row = document.createElement("label");
+    row.className = "light-row";
+    row.innerHTML = `<input type="checkbox" value="${light.entity_id}" ${allChecked ? "checked" : ""}/> ${light.name}`;
+    container.appendChild(row);
+  });
+}
+
+function getCheckedEntityIds(container) {
+  return Array.from(container.querySelectorAll("input:checked")).map((i) => i.value);
+}
+
+const applyModal = document.getElementById("apply-modal");
+const applyLightsEl = document.getElementById("apply-lights");
+const applyModalTitle = document.getElementById("apply-modal-title");
+
+async function openApplyModal(theme) {
+  currentApplyThemeId = theme.id;
+  applyModalTitle.textContent = `Apply "${theme.name}"`;
+  try {
+    const lights = await fetchLights();
+    renderLightCheckboxes(applyLightsEl, lights, true);
+    applyModal.classList.remove("hidden");
+  } catch (e) {
+    showToast(e.message, true);
+  }
+}
+
+document.getElementById("apply-confirm").addEventListener("click", async () => {
+  const entityIds = getCheckedEntityIds(applyLightsEl);
+  if (!entityIds.length) return showToast("Select at least one light", true);
+  try {
+    await api(`themes/${currentApplyThemeId}/apply`, {
+      method: "POST",
+      body: JSON.stringify({ entity_ids: entityIds }),
+    });
+    showToast("Theme applied");
+    applyModal.classList.add("hidden");
+  } catch (e) {
+    showToast(e.message, true);
+  }
+});
+
+const createModal = document.getElementById("create-modal");
+const createLightsEl = document.getElementById("create-lights");
+
+document.getElementById("create-btn").addEventListener("click", async () => {
+  document.getElementById("create-name").value = "";
+  document.getElementById("create-desc").value = "";
+  document.getElementById("create-tags").value = "";
+  try {
+    const lights = await fetchLights();
+    renderLightCheckboxes(createLightsEl, lights, false);
+    createModal.classList.remove("hidden");
+  } catch (e) {
+    showToast(e.message, true);
+  }
+});
+
+document.getElementById("create-confirm").addEventListener("click", async () => {
+  const name = document.getElementById("create-name").value.trim();
+  const description = document.getElementById("create-desc").value.trim();
+  const tags = document
+    .getElementById("create-tags")
+    .value.split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+  const entityIds = getCheckedEntityIds(createLightsEl);
+
+  if (!name) return showToast("Name is required", true);
+  if (!entityIds.length) return showToast("Select at least one light", true);
+
+  try {
+    await api("themes/capture", {
+      method: "POST",
+      body: JSON.stringify({ name, description, tags, entity_ids: entityIds }),
+    });
+    showToast("Theme saved");
+    createModal.classList.add("hidden");
+    loadThemes();
+  } catch (e) {
+    showToast(e.message, true);
+  }
+});
+
+document.querySelectorAll("[data-close]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.getElementById(btn.dataset.close).classList.add("hidden");
+  });
+});
+
+loadThemes().catch((e) => showToast(e.message, true));

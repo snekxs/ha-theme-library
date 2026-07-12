@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Light Theme Library</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>Light Theme Library</h1>
+    <button id="create-btn" class="btn btn-primary">+ New Theme</button>
+  </header>
+
+  <main id="grid" class="grid"></main>
+
+  <div id="apply-modal" class="modal hidden">
+    <div class="modal-card">
+      <h2 id="apply-modal-title">Apply theme</h2>
+      <p class="muted">Choose which lights to apply this to. Colors are assigned round-robin across your selection.</p>
+      <div id="apply-lights" class="light-list"></div>
+      <div class="modal-actions">
+        <button class="btn" data-close="apply-modal">Cancel</button>
+        <button id="apply-confirm" class="btn btn-primary">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="create-modal" class="modal hidden">
+    <div class="modal-card">
+      <h2>Create theme from current lights</h2>
+      <label>Name<input id="create-name" type="text" placeholder="e.g. Cozy Weekend" /></label>
+      <label>Description<input id="create-desc" type="text" placeholder="optional" /></label>
+      <label>Tags (comma separated)<input id="create-tags" type="text" placeholder="evening, warm" /></label>
+      <p class="muted">Pick the lights whose current color/brightness should be captured:</p>
+      <div id="create-lights" class="light-list"></div>
+      <div class="modal-actions">
+        <button class="btn" data-close="create-modal">Cancel</button>
+        <button id="create-confirm" class="btn btn-primary">Capture &amp; Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

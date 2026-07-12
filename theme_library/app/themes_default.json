@@ -1,0 +1,69 @@
+[
+  {
+    "id": "relax",
+    "name": "Relax",
+    "description": "Warm, dim, low-blue light for winding down.",
+    "tags": ["evening", "warm"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#ff8a5c", "brightness_pct": 40},
+      {"color": "#ffb37c", "brightness_pct": 35},
+      {"color": "#ff6f3c", "brightness_pct": 30}
+    ]
+  },
+  {
+    "id": "energize",
+    "name": "Energize",
+    "description": "Bright, cool-toned white to help you wake up and focus.",
+    "tags": ["morning", "cool"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#eaf4ff", "brightness_pct": 100},
+      {"color": "#dceeff", "brightness_pct": 95}
+    ]
+  },
+  {
+    "id": "concentrate",
+    "name": "Concentrate",
+    "description": "Crisp neutral white for focused work.",
+    "tags": ["work", "neutral"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#ffffff", "brightness_pct": 90},
+      {"color": "#f5f5f5", "brightness_pct": 85}
+    ]
+  },
+  {
+    "id": "reading",
+    "name": "Reading",
+    "description": "Soft warm white, easy on the eyes.",
+    "tags": ["evening", "warm"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#ffe0b3", "brightness_pct": 65}
+    ]
+  },
+  {
+    "id": "sunset-glow",
+    "name": "Sunset Glow",
+    "description": "Warm oranges and pinks for evening ambience.",
+    "tags": ["evening", "warm", "ambient"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#ff6b35", "brightness_pct": 70},
+      {"color": "#f7931e", "brightness_pct": 60},
+      {"color": "#ff3caf", "brightness_pct": 50}
+    ]
+  },
+  {
+    "id": "movie-night",
+    "name": "Movie Night",
+    "description": "Low, deep blue-violet backlighting.",
+    "tags": ["evening", "ambient"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#2c1a4d", "brightness_pct": 20},
+      {"color": "#1a1440", "brightness_pct": 15}
+    ]
+  }
+]
