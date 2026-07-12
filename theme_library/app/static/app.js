@@ -222,6 +222,21 @@ document.querySelectorAll("[data-close]").forEach((btn) => {
   });
 });
 
+const targetBarEl = document.getElementById("target-bar");
+const targetToggleEl = document.getElementById("target-toggle");
+
+function setTargetBarCollapsed(collapsed) {
+  targetBarEl.classList.toggle("collapsed", collapsed);
+  targetToggleEl.setAttribute("aria-expanded", String(!collapsed));
+  localStorage.setItem("targetLightsCollapsed", collapsed ? "1" : "0");
+}
+
+targetToggleEl.addEventListener("click", () => {
+  setTargetBarCollapsed(!targetBarEl.classList.contains("collapsed"));
+});
+
+setTargetBarCollapsed(localStorage.getItem("targetLightsCollapsed") === "1");
+
 async function init() {
   try {
     [allLights, savedTargetIds] = await Promise.all([api("lights"), api("target-lights")]);

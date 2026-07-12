@@ -6,18 +6,18 @@ extensible and shareable.
 
 ## What it does
 
-- Ships with 26 bundled themes across 10 categories (Relax & Unwind,
+- Ships with 29 bundled themes across 11 categories (Relax & Unwind,
   Energize & Wake Up, Focus & Work, Reading, Movie & TV, Party & Social,
-  Romantic, Seasonal & Holiday, Nature & Outdoors, Gaming), filterable by
-  category pill at the top of the gallery.
+  Romantic, Seasonal & Holiday, Nature & Outdoors, Gaming, Lo-Fi & Loft),
+  filterable by category pill at the top of the gallery.
 - Themes are **palettes**, not fixed scenes: a theme is a list of
   color/brightness "slots" with no hardcoded entity IDs. Slots are assigned
   round-robin across your target lights — so the same theme works on any
   room, on any instance.
 - **Target Lights bar**: pick which lights themes apply to once, at the top
-  of the page — the selection is saved automatically. Clicking a theme's
-  **Apply** button fires immediately against that saved selection; no
-  picker per click.
+  of the page (collapsible, so it stays out of the way once set) — the
+  selection is saved automatically. Clicking a theme's **Apply** button
+  fires immediately against that saved selection; no picker per click.
 - **Create your own**: pick a set of lights, set them how you want via the
   HA app/dashboard, then hit "New Theme" to capture their current
   color/brightness as a reusable theme (defaults to your saved target
@@ -38,37 +38,6 @@ extensible and shareable.
 
 For a one-click add flow, generate a `my.home-assistant.io` add-repository
 link pointing at that URL and share that instead of raw instructions.
-
-## Updating
-
-Home Assistant only shows an "Update available" when the `version` field in
-`theme_library/config.yaml` changes, so every change that should reach an
-installed instance needs a version bump:
-
-1. Edit `theme_library/config.yaml`, bump `version` (e.g. `0.2.0` →
-   `0.2.1`).
-2. Add a matching entry at the top of `theme_library/CHANGELOG.md`
-   describing what changed — Home Assistant shows this in the update
-   dialog (otherwise it says "No changelog found").
-3. Commit and `git push`.
-4. In Home Assistant: **Settings → Apps → App Store → ⋮ → Check for
-   updates**, then open "Light Theme Library" — an **Update** button
-   appears, with your changelog entry shown above it. Click it, and
-   restart the add-on if it doesn't restart on its own.
-
-## Install locally instead (no GitHub, for quick local iteration)
-
-1. Enable the Samba or SSH add-on on your Home Assistant instance so you
-   can reach the `/addons` folder.
-2. Copy this repo's `theme_library/` folder into `/addons/theme_library`
-   on your HA instance (so the path is
-   `/addons/theme_library/config.yaml`, etc).
-3. In Home Assistant: **Settings → Apps → App Store**, click the
-   refresh/overflow menu to check for local apps, and "Light Theme Library"
-   should appear under Local.
-4. Install and start it. To update, re-copy the changed files and use the
-   add-on's **Rebuild** button (no version bump required for local-only
-   installs, since there's no repo to diff against).
 
 ## Configuration
 
@@ -92,16 +61,3 @@ In the add-on's **Configuration** tab:
   reviews `submission_repo`'s PRs: only `color`/`brightness_pct` fields are
   ever written by this app, and a reviewer should reject anything that
   doesn't match that shape before merging.
-
-## Local development (without Home Assistant)
-
-```bash
-cd theme_library/app
-pip install -r requirements.txt
-THEME_LIBRARY_DATA_DIR=./data SUPERVISOR_TOKEN=dummy python main.py
-```
-
-Note: without a real `SUPERVISOR_TOKEN` and Supervisor proxy, the
-`/api/lights`, capture, and apply endpoints will fail since there's no
-Home Assistant to talk to — but the static UI will load and you can
-inspect `themes.json` creation.

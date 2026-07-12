@@ -13,19 +13,6 @@
     ]
   },
   {
-    "id": "candlelight",
-    "name": "Candlelight",
-    "description": "Flickering warm amber, like a room lit by candles.",
-    "category": "Relax & Unwind",
-    "tags": ["evening", "warm", "cozy"],
-    "source": "bundled",
-    "slots": [
-      {"color": "#ffb347", "brightness_pct": 35},
-      {"color": "#ff8c42", "brightness_pct": 25},
-      {"color": "#ffa62b", "brightness_pct": 30}
-    ]
-  },
-  {
     "id": "lavender-calm",
     "name": "Lavender Calm",
     "description": "Soft lilac and purple tones for a calm evening.",
@@ -65,13 +52,14 @@
   {
     "id": "citrus-burst",
     "name": "Citrus Burst",
-    "description": "Bright yellow and orange for an energetic kick.",
+    "description": "Punchy citrus yellow, lime, and orange.",
     "category": "Energize & Wake Up",
     "tags": ["morning", "bright"],
     "source": "bundled",
     "slots": [
       {"color": "#ffe135", "brightness_pct": 95},
-      {"color": "#ff8c00", "brightness_pct": 90}
+      {"color": "#aad400", "brightness_pct": 90},
+      {"color": "#ff8c00", "brightness_pct": 85}
     ]
   },
   {
@@ -89,13 +77,13 @@
   {
     "id": "deep-focus",
     "name": "Deep Focus",
-    "description": "Cool, high-brightness white for heads-down work.",
+    "description": "Saturated cool blue for heads-down work.",
     "category": "Focus & Work",
     "tags": ["work", "cool", "bright"],
     "source": "bundled",
     "slots": [
-      {"color": "#eaf2ff", "brightness_pct": 100},
-      {"color": "#d6e4ff", "brightness_pct": 95}
+      {"color": "#2196f3", "brightness_pct": 90},
+      {"color": "#64b5f6", "brightness_pct": 85}
     ]
   },
   {
@@ -133,18 +121,6 @@
     ]
   },
   {
-    "id": "cinema-glow",
-    "name": "Cinema Glow",
-    "description": "Deep blue-purple backlight for watching TV.",
-    "category": "Movie & TV",
-    "tags": ["evening", "ambient"],
-    "source": "bundled",
-    "slots": [
-      {"color": "#1b1035", "brightness_pct": 20},
-      {"color": "#3a1c71", "brightness_pct": 18}
-    ]
-  },
-  {
     "id": "party-mode",
     "name": "Party Mode",
     "description": "Vibrant, high-energy multicolor mix.",
@@ -161,14 +137,14 @@
   {
     "id": "disco-night",
     "name": "Disco Night",
-    "description": "Magenta, cyan, and yellow for a dance-floor feel.",
+    "description": "Retro glam gold, silver, and violet.",
     "category": "Party & Social",
-    "tags": ["party", "colorful"],
+    "tags": ["party", "glam"],
     "source": "bundled",
     "slots": [
-      {"color": "#ff00c8", "brightness_pct": 90},
-      {"color": "#00fff7", "brightness_pct": 85},
-      {"color": "#faff00", "brightness_pct": 80}
+      {"color": "#ffd700", "brightness_pct": 85},
+      {"color": "#c0c0c0", "brightness_pct": 80},
+      {"color": "#8a2be2", "brightness_pct": 75}
     ]
   },
   {
@@ -186,13 +162,13 @@
   {
     "id": "date-night",
     "name": "Date Night",
-    "description": "Deep red and pink at low brightness.",
+    "description": "Low-lit burgundy and warm gold, like candlelit dinner.",
     "category": "Romantic",
     "tags": ["evening", "romantic", "low-light"],
     "source": "bundled",
     "slots": [
-      {"color": "#8e0038", "brightness_pct": 30},
-      {"color": "#ff5c8a", "brightness_pct": 25}
+      {"color": "#4a0e1c", "brightness_pct": 25},
+      {"color": "#d4a017", "brightness_pct": 20}
     ]
   },
   {
@@ -247,13 +223,13 @@
   {
     "id": "winter-frost",
     "name": "Winter Frost",
-    "description": "Icy blues and whites.",
+    "description": "Deeper icy teal-blue, more saturated than a plain white.",
     "category": "Seasonal & Holiday",
     "tags": ["holiday", "winter", "cool"],
     "source": "bundled",
     "slots": [
-      {"color": "#cfe8ff", "brightness_pct": 85},
-      {"color": "#a0d8ef", "brightness_pct": 75}
+      {"color": "#a8dadc", "brightness_pct": 75},
+      {"color": "#219ebc", "brightness_pct": 65}
     ]
   },
   {
@@ -319,6 +295,70 @@
       {"color": "#ff003c", "brightness_pct": 90},
       {"color": "#00ff66", "brightness_pct": 85},
       {"color": "#0066ff", "brightness_pct": 85}
+    ]
+  },
+  {
+    "id": "lofi-chill",
+    "name": "Lofi Chill",
+    "description": "Dusty rose, muted teal, and cream — lofi radio vibes.",
+    "category": "Lo-Fi & Loft",
+    "tags": ["lofi", "muted", "chill"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#d5a6a6", "brightness_pct": 55},
+      {"color": "#8ea6a6", "brightness_pct": 50},
+      {"color": "#f0e4d0", "brightness_pct": 60}
+    ]
+  },
+  {
+    "id": "rainy-window",
+    "name": "Rainy Window",
+    "description": "Muted blue-grey and soft lavender, moody and low.",
+    "category": "Lo-Fi & Loft",
+    "tags": ["lofi", "muted", "moody"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#7f9baa", "brightness_pct": 35},
+      {"color": "#b6a6ca", "brightness_pct": 30}
+    ]
+  },
+  {
+    "id": "loft-industrial",
+    "name": "Loft Industrial",
+    "description": "Warm Edison-bulb amber, concrete grey, and rust brown.",
+    "category": "Lo-Fi & Loft",
+    "tags": ["loft", "industrial", "warm"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#d98e4a", "brightness_pct": 55},
+      {"color": "#8c8478", "brightness_pct": 45},
+      {"color": "#5c4033", "brightness_pct": 40}
+    ]
+  },
+  {
+    "id": "vinyl-nights",
+    "name": "Vinyl Nights",
+    "description": "Saturated plum, dusty gold, and pink.",
+    "category": "Lo-Fi & Loft",
+    "tags": ["lofi", "muted", "evening"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#6a2c5c", "brightness_pct": 35},
+      {"color": "#c9a66b", "brightness_pct": 40},
+      {"color": "#c97b84", "brightness_pct": 35}
+    ]
+  },
+  {
+    "id": "late-study-lofi",
+    "name": "Late Study Lofi",
+    "description": "Muted sage green, cream, and soft brown for late-night focus.",
+    "category": "Lo-Fi & Loft",
+    "tags": ["lofi", "muted", "study"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#9caf88", "brightness_pct": 50},
+      {"color": "#f0e4d0", "brightness_pct": 55},
+      {"color": "#a67c52", "brightness_pct": 45}
     ]
   }
 ]

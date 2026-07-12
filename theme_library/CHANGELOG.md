@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.1
+
+- Target Lights bar is now collapsible (click the header to expand/collapse;
+  state is remembered).
+- Added a new "Lo-Fi & Loft" category with 5 muted/dusty themes (Lofi
+  Chill, Rainy Window, Loft Industrial, Vinyl Nights, Late Study Lofi).
+- Removed two near-duplicate themes (Candlelight, Cinema Glow) and
+  recolored five others that were too close in color to a sibling in the
+  same category (Deep Focus, Date Night, Winter Frost, Disco Night,
+  Citrus Burst) — 29 themes total now.
+- Already-installed instances will drop the removed themes and pick up
+  the recolored/new ones automatically; your own saved themes are
+  untouched either way.
+
 ## 0.3.0
 
 - Added 20 new bundled themes (26 total) across 10 categories: Relax &

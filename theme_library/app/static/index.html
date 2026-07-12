@@ -12,13 +12,16 @@
     <button id="create-btn" class="btn btn-primary">+ New Theme</button>
   </header>
 
-  <section class="target-bar">
-    <div class="target-bar-header">
+  <section id="target-bar" class="target-bar">
+    <button id="target-toggle" class="target-bar-header" aria-expanded="true">
       <h2>Target Lights</h2>
       <span id="target-count" class="muted"></span>
+      <span id="target-chevron" class="chevron">&#9662;</span>
+    </button>
+    <div id="target-bar-body">
+      <p class="muted">Themes apply to whatever's checked here. Selection is saved automatically.</p>
+      <div id="target-lights" class="light-list light-list-horizontal"></div>
     </div>
-    <p class="muted">Themes apply to whatever's checked here. Selection is saved automatically.</p>
-    <div id="target-lights" class="light-list light-list-horizontal"></div>
   </section>
 
   <div id="category-filters" class="category-filters"></div>

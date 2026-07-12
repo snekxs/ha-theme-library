@@ -64,8 +64,12 @@ def load_themes() -> list:
 
     merged = []
     for t in themes:
-        latest = default_by_id.get(t["id"])
-        if t.get("source") == "bundled" and latest is not None:
+        if t.get("source") == "bundled":
+            latest = default_by_id.get(t["id"])
+            if latest is None:
+                # Bundled theme was removed upstream; drop it too.
+                changed = True
+                continue
             merged.append(latest)
             changed = changed or latest != t
         else:
