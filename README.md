@@ -6,8 +6,10 @@ extensible and shareable.
 
 ## What it does
 
-- Ships with a handful of bundled themes (Relax, Energize, Concentrate,
-  Reading, Sunset Glow, Movie Night).
+- Ships with 26 bundled themes across 10 categories (Relax & Unwind,
+  Energize & Wake Up, Focus & Work, Reading, Movie & TV, Party & Social,
+  Romantic, Seasonal & Holiday, Nature & Outdoors, Gaming), filterable by
+  category pill at the top of the gallery.
 - Themes are **palettes**, not fixed scenes: a theme is a list of
   color/brightness "slots" with no hardcoded entity IDs. Slots are assigned
   round-robin across your target lights — so the same theme works on any

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.0
+
+- Added 20 new bundled themes (26 total) across 10 categories: Relax &
+  Unwind, Energize & Wake Up, Focus & Work, Reading, Movie & TV, Party &
+  Social, Romantic, Seasonal & Holiday, Nature & Outdoors, Gaming.
+- Added category filter pills above the theme grid, and a Category field
+  when creating your own theme.
+- Existing installs automatically pick up the new/updated bundled themes
+  on next start — your own saved themes are untouched.
+- App background is now transparent so the Home Assistant dashboard
+  background shows through instead of a fixed dark/light fill; theme
+  cards and modals keep a solid background for readability.
+
 ## 0.2.1
 
 - Added add-on icon/logo.

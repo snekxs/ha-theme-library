@@ -48,10 +48,38 @@ async def ha_post(path: str, body: dict):
 
 
 def load_themes() -> list:
+    """Load themes, migrating in any new/changed bundled themes on top of
+    whatever the user already has saved (local/imported themes untouched)."""
+    defaults = json.loads(DEFAULT_THEMES_FILE.read_text())
+    default_by_id = {d["id"]: d for d in defaults}
+
     if not THEMES_FILE.exists():
         DATA_DIR.mkdir(parents=True, exist_ok=True)
-        shutil.copy(DEFAULT_THEMES_FILE, THEMES_FILE)
-    return json.loads(THEMES_FILE.read_text())
+        THEMES_FILE.write_text(json.dumps(defaults, indent=2))
+        return defaults
+
+    themes = json.loads(THEMES_FILE.read_text())
+    existing_ids = {t["id"] for t in themes}
+    changed = False
+
+    merged = []
+    for t in themes:
+        latest = default_by_id.get(t["id"])
+        if t.get("source") == "bundled" and latest is not None:
+            merged.append(latest)
+            changed = changed or latest != t
+        else:
+            merged.append(t)
+
+    for d in defaults:
+        if d["id"] not in existing_ids:
+            merged.append(d)
+            changed = True
+
+    if changed:
+        save_themes(merged)
+
+    return merged
 
 
 def save_themes(themes: list):
@@ -107,6 +135,7 @@ class Slot(BaseModel):
 class ThemeCreate(BaseModel):
     name: str
     description: str = ""
+    category: str = "Custom"
     tags: list[str] = []
     slots: list[Slot]
 
@@ -114,6 +143,7 @@ class ThemeCreate(BaseModel):
 class CaptureRequest(BaseModel):
     name: str
     description: str = ""
+    category: str = "Custom"
     tags: list[str] = []
     entity_ids: list[str]
 
@@ -165,6 +195,7 @@ def create_theme(payload: ThemeCreate):
         "id": slugify(payload.name) + "-" + os.urandom(3).hex(),
         "name": payload.name,
         "description": payload.description,
+        "category": payload.category or "Custom",
         "tags": payload.tags,
         "source": "local",
         "slots": slots,
@@ -199,6 +230,7 @@ async def capture_theme(payload: CaptureRequest):
         "id": slugify(payload.name) + "-" + os.urandom(3).hex(),
         "name": payload.name,
         "description": payload.description,
+        "category": payload.category or "Custom",
         "tags": payload.tags,
         "source": "local",
         "slots": slots,
@@ -259,6 +291,7 @@ def submit_url(theme_id: str):
     submission = {
         "name": theme["name"],
         "description": theme.get("description", ""),
+        "category": theme.get("category", "Custom"),
         "tags": theme.get("tags", []),
         "slots": theme["slots"],
     }

@@ -3,6 +3,7 @@
     "id": "relax",
     "name": "Relax",
     "description": "Warm, dim, low-blue light for winding down.",
+    "category": "Relax & Unwind",
     "tags": ["evening", "warm"],
     "source": "bundled",
     "slots": [
@@ -12,9 +13,35 @@
     ]
   },
   {
+    "id": "candlelight",
+    "name": "Candlelight",
+    "description": "Flickering warm amber, like a room lit by candles.",
+    "category": "Relax & Unwind",
+    "tags": ["evening", "warm", "cozy"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#ffb347", "brightness_pct": 35},
+      {"color": "#ff8c42", "brightness_pct": 25},
+      {"color": "#ffa62b", "brightness_pct": 30}
+    ]
+  },
+  {
+    "id": "lavender-calm",
+    "name": "Lavender Calm",
+    "description": "Soft lilac and purple tones for a calm evening.",
+    "category": "Relax & Unwind",
+    "tags": ["evening", "cool", "calm"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#c9a7eb", "brightness_pct": 45},
+      {"color": "#b39ddb", "brightness_pct": 40}
+    ]
+  },
+  {
     "id": "energize",
     "name": "Energize",
     "description": "Bright, cool-toned white to help you wake up and focus.",
+    "category": "Energize & Wake Up",
     "tags": ["morning", "cool"],
     "source": "bundled",
     "slots": [
@@ -23,9 +50,35 @@
     ]
   },
   {
+    "id": "sunrise-boost",
+    "name": "Sunrise Boost",
+    "description": "Warm-to-cool gradient that mimics a bright sunrise.",
+    "category": "Energize & Wake Up",
+    "tags": ["morning", "bright"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#ffd97d", "brightness_pct": 90},
+      {"color": "#ff9f68", "brightness_pct": 85},
+      {"color": "#fff4e0", "brightness_pct": 95}
+    ]
+  },
+  {
+    "id": "citrus-burst",
+    "name": "Citrus Burst",
+    "description": "Bright yellow and orange for an energetic kick.",
+    "category": "Energize & Wake Up",
+    "tags": ["morning", "bright"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#ffe135", "brightness_pct": 95},
+      {"color": "#ff8c00", "brightness_pct": 90}
+    ]
+  },
+  {
     "id": "concentrate",
     "name": "Concentrate",
     "description": "Crisp neutral white for focused work.",
+    "category": "Focus & Work",
     "tags": ["work", "neutral"],
     "source": "bundled",
     "slots": [
@@ -34,9 +87,22 @@
     ]
   },
   {
+    "id": "deep-focus",
+    "name": "Deep Focus",
+    "description": "Cool, high-brightness white for heads-down work.",
+    "category": "Focus & Work",
+    "tags": ["work", "cool", "bright"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#eaf2ff", "brightness_pct": 100},
+      {"color": "#d6e4ff", "brightness_pct": 95}
+    ]
+  },
+  {
     "id": "reading",
     "name": "Reading",
     "description": "Soft warm white, easy on the eyes.",
+    "category": "Reading",
     "tags": ["evening", "warm"],
     "source": "bundled",
     "slots": [
@@ -44,9 +110,170 @@
     ]
   },
   {
+    "id": "fireside-read",
+    "name": "Fireside Read",
+    "description": "Warm amber glow like reading by the fireplace.",
+    "category": "Reading",
+    "tags": ["evening", "warm", "cozy"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#e8a95c", "brightness_pct": 55}
+    ]
+  },
+  {
+    "id": "movie-night",
+    "name": "Movie Night",
+    "description": "Low, deep blue-violet backlighting.",
+    "category": "Movie & TV",
+    "tags": ["evening", "ambient"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#2c1a4d", "brightness_pct": 20},
+      {"color": "#1a1440", "brightness_pct": 15}
+    ]
+  },
+  {
+    "id": "cinema-glow",
+    "name": "Cinema Glow",
+    "description": "Deep blue-purple backlight for watching TV.",
+    "category": "Movie & TV",
+    "tags": ["evening", "ambient"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#1b1035", "brightness_pct": 20},
+      {"color": "#3a1c71", "brightness_pct": 18}
+    ]
+  },
+  {
+    "id": "party-mode",
+    "name": "Party Mode",
+    "description": "Vibrant, high-energy multicolor mix.",
+    "category": "Party & Social",
+    "tags": ["party", "bright", "colorful"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#ff0040", "brightness_pct": 100},
+      {"color": "#00e5ff", "brightness_pct": 100},
+      {"color": "#39ff14", "brightness_pct": 90},
+      {"color": "#ff00ff", "brightness_pct": 95}
+    ]
+  },
+  {
+    "id": "disco-night",
+    "name": "Disco Night",
+    "description": "Magenta, cyan, and yellow for a dance-floor feel.",
+    "category": "Party & Social",
+    "tags": ["party", "colorful"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#ff00c8", "brightness_pct": 90},
+      {"color": "#00fff7", "brightness_pct": 85},
+      {"color": "#faff00", "brightness_pct": 80}
+    ]
+  },
+  {
+    "id": "cocktail-hour",
+    "name": "Cocktail Hour",
+    "description": "Warm gold and deep red for evening get-togethers.",
+    "category": "Party & Social",
+    "tags": ["evening", "warm"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#d4af37", "brightness_pct": 60},
+      {"color": "#8b1e3f", "brightness_pct": 45}
+    ]
+  },
+  {
+    "id": "date-night",
+    "name": "Date Night",
+    "description": "Deep red and pink at low brightness.",
+    "category": "Romantic",
+    "tags": ["evening", "romantic", "low-light"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#8e0038", "brightness_pct": 30},
+      {"color": "#ff5c8a", "brightness_pct": 25}
+    ]
+  },
+  {
+    "id": "rose-garden",
+    "name": "Rose Garden",
+    "description": "Soft pink and rose tones.",
+    "category": "Romantic",
+    "tags": ["romantic", "soft"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#ffb6c1", "brightness_pct": 50},
+      {"color": "#ff6f91", "brightness_pct": 45}
+    ]
+  },
+  {
+    "id": "christmas-classic",
+    "name": "Christmas Classic",
+    "description": "Traditional red, green, and gold.",
+    "category": "Seasonal & Holiday",
+    "tags": ["holiday", "christmas", "colorful"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#c8102e", "brightness_pct": 80},
+      {"color": "#0b6623", "brightness_pct": 75},
+      {"color": "#ffd700", "brightness_pct": 70}
+    ]
+  },
+  {
+    "id": "halloween-spooky",
+    "name": "Halloween Spooky",
+    "description": "Eerie orange and purple.",
+    "category": "Seasonal & Holiday",
+    "tags": ["holiday", "halloween"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#ff7518", "brightness_pct": 65},
+      {"color": "#4b0082", "brightness_pct": 50}
+    ]
+  },
+  {
+    "id": "valentines-day",
+    "name": "Valentine's Day",
+    "description": "Bold red and soft pink.",
+    "category": "Seasonal & Holiday",
+    "tags": ["holiday", "romantic"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#e60026", "brightness_pct": 60},
+      {"color": "#ff8fab", "brightness_pct": 55}
+    ]
+  },
+  {
+    "id": "winter-frost",
+    "name": "Winter Frost",
+    "description": "Icy blues and whites.",
+    "category": "Seasonal & Holiday",
+    "tags": ["holiday", "winter", "cool"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#cfe8ff", "brightness_pct": 85},
+      {"color": "#a0d8ef", "brightness_pct": 75}
+    ]
+  },
+  {
+    "id": "autumn-harvest",
+    "name": "Autumn Harvest",
+    "description": "Burnt orange, brown, and gold.",
+    "category": "Seasonal & Holiday",
+    "tags": ["holiday", "autumn", "warm"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#c1440e", "brightness_pct": 55},
+      {"color": "#d99058", "brightness_pct": 50},
+      {"color": "#8a5a2b", "brightness_pct": 40}
+    ]
+  },
+  {
     "id": "sunset-glow",
     "name": "Sunset Glow",
     "description": "Warm oranges and pinks for evening ambience.",
+    "category": "Nature & Outdoors",
     "tags": ["evening", "warm", "ambient"],
     "source": "bundled",
     "slots": [
@@ -56,14 +283,42 @@
     ]
   },
   {
-    "id": "movie-night",
-    "name": "Movie Night",
-    "description": "Low, deep blue-violet backlighting.",
-    "tags": ["evening", "ambient"],
+    "id": "forest-canopy",
+    "name": "Forest Canopy",
+    "description": "Deep, layered green tones.",
+    "category": "Nature & Outdoors",
+    "tags": ["nature", "green"],
     "source": "bundled",
     "slots": [
-      {"color": "#2c1a4d", "brightness_pct": 20},
-      {"color": "#1a1440", "brightness_pct": 15}
+      {"color": "#1b4332", "brightness_pct": 45},
+      {"color": "#2d6a4f", "brightness_pct": 40},
+      {"color": "#52796f", "brightness_pct": 35}
+    ]
+  },
+  {
+    "id": "ocean-breeze",
+    "name": "Ocean Breeze",
+    "description": "Cool blues and teals.",
+    "category": "Nature & Outdoors",
+    "tags": ["nature", "cool", "blue"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#0077b6", "brightness_pct": 60},
+      {"color": "#48cae4", "brightness_pct": 55},
+      {"color": "#00b4d8", "brightness_pct": 50}
+    ]
+  },
+  {
+    "id": "gaming-rgb",
+    "name": "Gaming RGB",
+    "description": "Vibrant red, green, and blue accent lighting.",
+    "category": "Gaming",
+    "tags": ["gaming", "colorful", "bright"],
+    "source": "bundled",
+    "slots": [
+      {"color": "#ff003c", "brightness_pct": 90},
+      {"color": "#00ff66", "brightness_pct": 85},
+      {"color": "#0066ff", "brightness_pct": 85}
     ]
   }
 ]

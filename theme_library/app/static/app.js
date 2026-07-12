@@ -2,9 +2,12 @@ const grid = document.getElementById("grid");
 const toast = document.getElementById("toast");
 const targetLightsEl = document.getElementById("target-lights");
 const targetCountEl = document.getElementById("target-count");
+const categoryFiltersEl = document.getElementById("category-filters");
 
 let allLights = [];
 let savedTargetIds = [];
+let allThemes = [];
+let activeCategory = "All";
 
 function showToast(msg, isError = false) {
   toast.textContent = msg;
@@ -37,6 +40,7 @@ function themeCard(theme) {
   el.innerHTML = `
     <div class="swatch">${swatchHtml(theme.slots)}</div>
     <div class="card-body">
+      <span class="category-badge">${theme.category || "Custom"}</span>
       <h3>${theme.name}</h3>
       <p>${theme.description || ""}</p>
       <div class="tags">${(theme.tags || []).map((t) => `<span class="tag">${t}</span>`).join("")}</div>
@@ -54,10 +58,40 @@ function themeCard(theme) {
   return el;
 }
 
-async function loadThemes() {
-  const themes = await api("themes");
+function renderGrid() {
   grid.innerHTML = "";
-  themes.forEach((theme) => grid.appendChild(themeCard(theme)));
+  const visible = activeCategory === "All"
+    ? allThemes
+    : allThemes.filter((t) => (t.category || "Custom") === activeCategory);
+  visible.forEach((theme) => grid.appendChild(themeCard(theme)));
+}
+
+function renderCategoryFilters() {
+  const categories = ["All", ...new Set(allThemes.map((t) => t.category || "Custom"))];
+  categoryFiltersEl.innerHTML = "";
+  categories.forEach((cat) => {
+    const btn = document.createElement("button");
+    btn.className = "category-pill" + (cat === activeCategory ? " active" : "");
+    btn.textContent = cat;
+    btn.addEventListener("click", () => {
+      activeCategory = cat;
+      renderCategoryFilters();
+      renderGrid();
+    });
+    categoryFiltersEl.appendChild(btn);
+  });
+
+  const datalist = document.getElementById("category-options");
+  datalist.innerHTML = categories
+    .filter((c) => c !== "All")
+    .map((c) => `<option value="${c}"></option>`)
+    .join("");
+}
+
+async function loadThemes() {
+  allThemes = await api("themes");
+  renderCategoryFilters();
+  renderGrid();
 }
 
 async function deleteTheme(theme) {
@@ -149,6 +183,7 @@ const createLightsEl = document.getElementById("create-lights");
 document.getElementById("create-btn").addEventListener("click", () => {
   document.getElementById("create-name").value = "";
   document.getElementById("create-desc").value = "";
+  document.getElementById("create-category").value = "";
   document.getElementById("create-tags").value = "";
   renderLightCheckboxes(createLightsEl, allLights, savedTargetIds);
   createModal.classList.remove("hidden");
@@ -157,6 +192,7 @@ document.getElementById("create-btn").addEventListener("click", () => {
 document.getElementById("create-confirm").addEventListener("click", async () => {
   const name = document.getElementById("create-name").value.trim();
   const description = document.getElementById("create-desc").value.trim();
+  const category = document.getElementById("create-category").value.trim() || "Custom";
   const tags = document
     .getElementById("create-tags")
     .value.split(",")
@@ -170,7 +206,7 @@ document.getElementById("create-confirm").addEventListener("click", async () => 
   try {
     await api("themes/capture", {
       method: "POST",
-      body: JSON.stringify({ name, description, tags, entity_ids: entityIds }),
+      body: JSON.stringify({ name, description, category, tags, entity_ids: entityIds }),
     });
     showToast("Theme saved");
     createModal.classList.add("hidden");
