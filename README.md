@@ -36,13 +36,14 @@ Core itself.
   then hit "+ New" to capture their current color/brightness as a
   reusable theme.
 - **Favorites → real buttons**: star a theme and it becomes its own
-  single-button **device**, named exactly the theme (e.g. "Sunset Glow"),
-  with a real `unique_id` — assignable to an area, addable to any
-  dashboard, and shows with a clean name with no prefix, through HA's
-  normal entity settings. (Favoriting also creates a matching HA scene as
-  a byproduct, but the button is the intended way to use this — the
-  scene has no such management support since `scene.create` entities
-  can't have a `unique_id`.)
+  device, named exactly the theme (e.g. "Sunset Glow"), with two
+  entities — a **button** (press to apply) and a **binary sensor**
+  ("Active") that turns on when that theme is the one currently applied
+  or cycling, and off once a different theme/effect takes over. Both
+  have real `unique_id`s — assignable to an area, addable to any
+  dashboard, fully renameable through HA's normal entity settings.
+  (Favoriting also creates a matching HA scene as a byproduct, but the
+  button is the intended way to use this.)
 
 ## Install via HACS (recommended)
 

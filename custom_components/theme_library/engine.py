@@ -6,7 +6,9 @@ import random
 import re
 
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.dispatcher import async_dispatcher_send
 
+from .const import SIGNAL_ACTIVE_THEME_CHANGED
 from .storage import ThemeLibraryStorage
 
 ALLOWED_LIGHT_ATTRS = {"color", "brightness_pct"}
@@ -74,6 +76,15 @@ class ThemeLibraryEngine:
         self._dynamic_task: asyncio.Task | None = None
         self._dynamic_kind: str | None = None
         self._dynamic_name: str | None = None
+        self._active_theme_id: str | None = None
+
+    def is_theme_active(self, theme_id: str) -> bool:
+        return self._active_theme_id == theme_id
+
+    def _set_active_theme(self, theme_id: str | None) -> None:
+        if theme_id != self._active_theme_id:
+            self._active_theme_id = theme_id
+            async_dispatcher_send(self.hass, SIGNAL_ACTIVE_THEME_CHANGED)
 
     async def _turn_on(self, entity_id: str, rgb: list, brightness_pct: int, transition: float | None = None) -> None:
         data = {"entity_id": entity_id, "rgb_color": rgb, "brightness_pct": brightness_pct}
@@ -178,6 +189,7 @@ class ThemeLibraryEngine:
     async def apply_theme(self, theme: dict, entity_ids: list) -> dict:
         settings = await self.storage.async_load_settings()
         await self.stop_dynamic()
+        self._set_active_theme(theme["id"])
 
         if settings.get("dynamic_mode"):
             interval = settings.get("dynamic_interval", 8)
@@ -199,6 +211,7 @@ class ThemeLibraryEngine:
 
     async def apply_effect(self, effect: dict, entity_ids: list) -> dict:
         await self.stop_dynamic()
+        self._set_active_theme(None)
         self._dynamic_task = self.hass.async_create_task(self._effect_loop(effect, entity_ids))
         self._dynamic_kind = "effect"
         self._dynamic_name = effect["name"]
