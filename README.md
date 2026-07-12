@@ -6,10 +6,13 @@ extensible and shareable.
 
 ## What it does
 
-- Ships with 29 bundled themes across 11 categories (Relax & Unwind,
+- Ships with 96 bundled themes across 23 categories (Relax & Unwind,
   Energize & Wake Up, Focus & Work, Reading, Movie & TV, Party & Social,
-  Romantic, Seasonal & Holiday, Nature & Outdoors, Gaming, Lo-Fi & Loft),
-  filterable by category pill at the top of the gallery.
+  Romantic, Seasonal & Holiday, Nature & Outdoors, Gaming, Lo-Fi, Loft,
+  Sci-Fi & Neon, Zen & Meditation, Coffee Shop & Cafe, Tropical & Beach,
+  Retro & Vintage, Space & Galaxy, Fantasy & Magic, Botanical &
+  Greenhouse, Wine & Vineyard, Baby & Nursery, Urban Night), filterable
+  by category pill at the top of the gallery.
 - Themes are **palettes**, not fixed scenes: a theme is a list of
   color/brightness "slots" with no hardcoded entity IDs. Slots are assigned
   round-robin across your target lights — so the same theme works on any

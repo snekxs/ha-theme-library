@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.4.0
+
+- Split "Lo-Fi & Loft" into two separate categories — **Lo-Fi** and
+  **Loft** — each with their own themes.
+- Added 67 new bundled themes across 13 new categories: Sci-Fi & Neon,
+  Zen & Meditation, Coffee Shop & Cafe, Tropical & Beach, Retro &
+  Vintage, Space & Galaxy, Fantasy & Magic, Botanical & Greenhouse, Wine
+  & Vineyard, Baby & Nursery, Urban Night, plus 4 more Loft themes and 2
+  more each in Gaming and Movie & TV. 96 themes total across 23
+  categories now.
+- Every new/changed theme was checked for color collisions against
+  others in the same category before shipping.
+- Already-installed instances will pick these up automatically on next
+  start; your own saved themes are untouched.
+
 ## 0.3.1
 
 - Target Lights bar is now collapsible (click the header to expand/collapse;

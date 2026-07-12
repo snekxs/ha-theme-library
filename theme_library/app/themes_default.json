@@ -4,12 +4,24 @@
     "name": "Relax",
     "description": "Warm, dim, low-blue light for winding down.",
     "category": "Relax & Unwind",
-    "tags": ["evening", "warm"],
+    "tags": [
+      "evening",
+      "warm"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#ff8a5c", "brightness_pct": 40},
-      {"color": "#ffb37c", "brightness_pct": 35},
-      {"color": "#ff6f3c", "brightness_pct": 30}
+      {
+        "color": "#ff8a5c",
+        "brightness_pct": 40
+      },
+      {
+        "color": "#ffb37c",
+        "brightness_pct": 35
+      },
+      {
+        "color": "#ff6f3c",
+        "brightness_pct": 30
+      }
     ]
   },
   {
@@ -17,11 +29,21 @@
     "name": "Lavender Calm",
     "description": "Soft lilac and purple tones for a calm evening.",
     "category": "Relax & Unwind",
-    "tags": ["evening", "cool", "calm"],
+    "tags": [
+      "evening",
+      "cool",
+      "calm"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#c9a7eb", "brightness_pct": 45},
-      {"color": "#b39ddb", "brightness_pct": 40}
+      {
+        "color": "#c9a7eb",
+        "brightness_pct": 45
+      },
+      {
+        "color": "#b39ddb",
+        "brightness_pct": 40
+      }
     ]
   },
   {
@@ -29,11 +51,20 @@
     "name": "Energize",
     "description": "Bright, cool-toned white to help you wake up and focus.",
     "category": "Energize & Wake Up",
-    "tags": ["morning", "cool"],
+    "tags": [
+      "morning",
+      "cool"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#eaf4ff", "brightness_pct": 100},
-      {"color": "#dceeff", "brightness_pct": 95}
+      {
+        "color": "#eaf4ff",
+        "brightness_pct": 100
+      },
+      {
+        "color": "#dceeff",
+        "brightness_pct": 95
+      }
     ]
   },
   {
@@ -41,12 +72,24 @@
     "name": "Sunrise Boost",
     "description": "Warm-to-cool gradient that mimics a bright sunrise.",
     "category": "Energize & Wake Up",
-    "tags": ["morning", "bright"],
+    "tags": [
+      "morning",
+      "bright"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#ffd97d", "brightness_pct": 90},
-      {"color": "#ff9f68", "brightness_pct": 85},
-      {"color": "#fff4e0", "brightness_pct": 95}
+      {
+        "color": "#ffd97d",
+        "brightness_pct": 90
+      },
+      {
+        "color": "#ff9f68",
+        "brightness_pct": 85
+      },
+      {
+        "color": "#fff4e0",
+        "brightness_pct": 95
+      }
     ]
   },
   {
@@ -54,12 +97,24 @@
     "name": "Citrus Burst",
     "description": "Punchy citrus yellow, lime, and orange.",
     "category": "Energize & Wake Up",
-    "tags": ["morning", "bright"],
+    "tags": [
+      "morning",
+      "bright"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#ffe135", "brightness_pct": 95},
-      {"color": "#aad400", "brightness_pct": 90},
-      {"color": "#ff8c00", "brightness_pct": 85}
+      {
+        "color": "#ffe135",
+        "brightness_pct": 95
+      },
+      {
+        "color": "#aad400",
+        "brightness_pct": 90
+      },
+      {
+        "color": "#ff8c00",
+        "brightness_pct": 85
+      }
     ]
   },
   {
@@ -67,11 +122,20 @@
     "name": "Concentrate",
     "description": "Crisp neutral white for focused work.",
     "category": "Focus & Work",
-    "tags": ["work", "neutral"],
+    "tags": [
+      "work",
+      "neutral"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#ffffff", "brightness_pct": 90},
-      {"color": "#f5f5f5", "brightness_pct": 85}
+      {
+        "color": "#ffffff",
+        "brightness_pct": 90
+      },
+      {
+        "color": "#f5f5f5",
+        "brightness_pct": 85
+      }
     ]
   },
   {
@@ -79,11 +143,21 @@
     "name": "Deep Focus",
     "description": "Saturated cool blue for heads-down work.",
     "category": "Focus & Work",
-    "tags": ["work", "cool", "bright"],
+    "tags": [
+      "work",
+      "cool",
+      "bright"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#2196f3", "brightness_pct": 90},
-      {"color": "#64b5f6", "brightness_pct": 85}
+      {
+        "color": "#2196f3",
+        "brightness_pct": 90
+      },
+      {
+        "color": "#64b5f6",
+        "brightness_pct": 85
+      }
     ]
   },
   {
@@ -91,10 +165,16 @@
     "name": "Reading",
     "description": "Soft warm white, easy on the eyes.",
     "category": "Reading",
-    "tags": ["evening", "warm"],
+    "tags": [
+      "evening",
+      "warm"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#ffe0b3", "brightness_pct": 65}
+      {
+        "color": "#ffe0b3",
+        "brightness_pct": 65
+      }
     ]
   },
   {
@@ -102,10 +182,17 @@
     "name": "Fireside Read",
     "description": "Warm amber glow like reading by the fireplace.",
     "category": "Reading",
-    "tags": ["evening", "warm", "cozy"],
+    "tags": [
+      "evening",
+      "warm",
+      "cozy"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#e8a95c", "brightness_pct": 55}
+      {
+        "color": "#e8a95c",
+        "brightness_pct": 55
+      }
     ]
   },
   {
@@ -113,11 +200,20 @@
     "name": "Movie Night",
     "description": "Low, deep blue-violet backlighting.",
     "category": "Movie & TV",
-    "tags": ["evening", "ambient"],
+    "tags": [
+      "evening",
+      "ambient"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#2c1a4d", "brightness_pct": 20},
-      {"color": "#1a1440", "brightness_pct": 15}
+      {
+        "color": "#2c1a4d",
+        "brightness_pct": 20
+      },
+      {
+        "color": "#1a1440",
+        "brightness_pct": 15
+      }
     ]
   },
   {
@@ -125,13 +221,29 @@
     "name": "Party Mode",
     "description": "Vibrant, high-energy multicolor mix.",
     "category": "Party & Social",
-    "tags": ["party", "bright", "colorful"],
+    "tags": [
+      "party",
+      "bright",
+      "colorful"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#ff0040", "brightness_pct": 100},
-      {"color": "#00e5ff", "brightness_pct": 100},
-      {"color": "#39ff14", "brightness_pct": 90},
-      {"color": "#ff00ff", "brightness_pct": 95}
+      {
+        "color": "#ff0040",
+        "brightness_pct": 100
+      },
+      {
+        "color": "#00e5ff",
+        "brightness_pct": 100
+      },
+      {
+        "color": "#39ff14",
+        "brightness_pct": 90
+      },
+      {
+        "color": "#ff00ff",
+        "brightness_pct": 95
+      }
     ]
   },
   {
@@ -139,12 +251,24 @@
     "name": "Disco Night",
     "description": "Retro glam gold, silver, and violet.",
     "category": "Party & Social",
-    "tags": ["party", "glam"],
+    "tags": [
+      "party",
+      "glam"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#ffd700", "brightness_pct": 85},
-      {"color": "#c0c0c0", "brightness_pct": 80},
-      {"color": "#8a2be2", "brightness_pct": 75}
+      {
+        "color": "#ffd700",
+        "brightness_pct": 85
+      },
+      {
+        "color": "#c0c0c0",
+        "brightness_pct": 80
+      },
+      {
+        "color": "#8a2be2",
+        "brightness_pct": 75
+      }
     ]
   },
   {
@@ -152,11 +276,20 @@
     "name": "Cocktail Hour",
     "description": "Warm gold and deep red for evening get-togethers.",
     "category": "Party & Social",
-    "tags": ["evening", "warm"],
+    "tags": [
+      "evening",
+      "warm"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#d4af37", "brightness_pct": 60},
-      {"color": "#8b1e3f", "brightness_pct": 45}
+      {
+        "color": "#d4af37",
+        "brightness_pct": 60
+      },
+      {
+        "color": "#8b1e3f",
+        "brightness_pct": 45
+      }
     ]
   },
   {
@@ -164,11 +297,21 @@
     "name": "Date Night",
     "description": "Low-lit burgundy and warm gold, like candlelit dinner.",
     "category": "Romantic",
-    "tags": ["evening", "romantic", "low-light"],
+    "tags": [
+      "evening",
+      "romantic",
+      "low-light"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#4a0e1c", "brightness_pct": 25},
-      {"color": "#d4a017", "brightness_pct": 20}
+      {
+        "color": "#4a0e1c",
+        "brightness_pct": 25
+      },
+      {
+        "color": "#d4a017",
+        "brightness_pct": 20
+      }
     ]
   },
   {
@@ -176,11 +319,20 @@
     "name": "Rose Garden",
     "description": "Soft pink and rose tones.",
     "category": "Romantic",
-    "tags": ["romantic", "soft"],
+    "tags": [
+      "romantic",
+      "soft"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#ffb6c1", "brightness_pct": 50},
-      {"color": "#ff6f91", "brightness_pct": 45}
+      {
+        "color": "#ffb6c1",
+        "brightness_pct": 50
+      },
+      {
+        "color": "#ff6f91",
+        "brightness_pct": 45
+      }
     ]
   },
   {
@@ -188,12 +340,25 @@
     "name": "Christmas Classic",
     "description": "Traditional red, green, and gold.",
     "category": "Seasonal & Holiday",
-    "tags": ["holiday", "christmas", "colorful"],
+    "tags": [
+      "holiday",
+      "christmas",
+      "colorful"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#c8102e", "brightness_pct": 80},
-      {"color": "#0b6623", "brightness_pct": 75},
-      {"color": "#ffd700", "brightness_pct": 70}
+      {
+        "color": "#c8102e",
+        "brightness_pct": 80
+      },
+      {
+        "color": "#0b6623",
+        "brightness_pct": 75
+      },
+      {
+        "color": "#ffd700",
+        "brightness_pct": 70
+      }
     ]
   },
   {
@@ -201,11 +366,20 @@
     "name": "Halloween Spooky",
     "description": "Eerie orange and purple.",
     "category": "Seasonal & Holiday",
-    "tags": ["holiday", "halloween"],
+    "tags": [
+      "holiday",
+      "halloween"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#ff7518", "brightness_pct": 65},
-      {"color": "#4b0082", "brightness_pct": 50}
+      {
+        "color": "#ff7518",
+        "brightness_pct": 65
+      },
+      {
+        "color": "#4b0082",
+        "brightness_pct": 50
+      }
     ]
   },
   {
@@ -213,11 +387,20 @@
     "name": "Valentine's Day",
     "description": "Bold red and soft pink.",
     "category": "Seasonal & Holiday",
-    "tags": ["holiday", "romantic"],
+    "tags": [
+      "holiday",
+      "romantic"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#e60026", "brightness_pct": 60},
-      {"color": "#ff8fab", "brightness_pct": 55}
+      {
+        "color": "#e60026",
+        "brightness_pct": 60
+      },
+      {
+        "color": "#ff8fab",
+        "brightness_pct": 55
+      }
     ]
   },
   {
@@ -225,11 +408,21 @@
     "name": "Winter Frost",
     "description": "Deeper icy teal-blue, more saturated than a plain white.",
     "category": "Seasonal & Holiday",
-    "tags": ["holiday", "winter", "cool"],
+    "tags": [
+      "holiday",
+      "winter",
+      "cool"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#a8dadc", "brightness_pct": 75},
-      {"color": "#219ebc", "brightness_pct": 65}
+      {
+        "color": "#a8dadc",
+        "brightness_pct": 75
+      },
+      {
+        "color": "#219ebc",
+        "brightness_pct": 65
+      }
     ]
   },
   {
@@ -237,12 +430,25 @@
     "name": "Autumn Harvest",
     "description": "Burnt orange, brown, and gold.",
     "category": "Seasonal & Holiday",
-    "tags": ["holiday", "autumn", "warm"],
+    "tags": [
+      "holiday",
+      "autumn",
+      "warm"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#c1440e", "brightness_pct": 55},
-      {"color": "#d99058", "brightness_pct": 50},
-      {"color": "#8a5a2b", "brightness_pct": 40}
+      {
+        "color": "#c1440e",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#d99058",
+        "brightness_pct": 50
+      },
+      {
+        "color": "#8a5a2b",
+        "brightness_pct": 40
+      }
     ]
   },
   {
@@ -250,12 +456,25 @@
     "name": "Sunset Glow",
     "description": "Warm oranges and pinks for evening ambience.",
     "category": "Nature & Outdoors",
-    "tags": ["evening", "warm", "ambient"],
+    "tags": [
+      "evening",
+      "warm",
+      "ambient"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#ff6b35", "brightness_pct": 70},
-      {"color": "#f7931e", "brightness_pct": 60},
-      {"color": "#ff3caf", "brightness_pct": 50}
+      {
+        "color": "#ff6b35",
+        "brightness_pct": 70
+      },
+      {
+        "color": "#f7931e",
+        "brightness_pct": 60
+      },
+      {
+        "color": "#ff3caf",
+        "brightness_pct": 50
+      }
     ]
   },
   {
@@ -263,12 +482,24 @@
     "name": "Forest Canopy",
     "description": "Deep, layered green tones.",
     "category": "Nature & Outdoors",
-    "tags": ["nature", "green"],
+    "tags": [
+      "nature",
+      "green"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#1b4332", "brightness_pct": 45},
-      {"color": "#2d6a4f", "brightness_pct": 40},
-      {"color": "#52796f", "brightness_pct": 35}
+      {
+        "color": "#1b4332",
+        "brightness_pct": 45
+      },
+      {
+        "color": "#2d6a4f",
+        "brightness_pct": 40
+      },
+      {
+        "color": "#52796f",
+        "brightness_pct": 35
+      }
     ]
   },
   {
@@ -276,12 +507,25 @@
     "name": "Ocean Breeze",
     "description": "Cool blues and teals.",
     "category": "Nature & Outdoors",
-    "tags": ["nature", "cool", "blue"],
+    "tags": [
+      "nature",
+      "cool",
+      "blue"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#0077b6", "brightness_pct": 60},
-      {"color": "#48cae4", "brightness_pct": 55},
-      {"color": "#00b4d8", "brightness_pct": 50}
+      {
+        "color": "#0077b6",
+        "brightness_pct": 60
+      },
+      {
+        "color": "#48cae4",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#00b4d8",
+        "brightness_pct": 50
+      }
     ]
   },
   {
@@ -289,76 +533,1671 @@
     "name": "Gaming RGB",
     "description": "Vibrant red, green, and blue accent lighting.",
     "category": "Gaming",
-    "tags": ["gaming", "colorful", "bright"],
+    "tags": [
+      "gaming",
+      "colorful",
+      "bright"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#ff003c", "brightness_pct": 90},
-      {"color": "#00ff66", "brightness_pct": 85},
-      {"color": "#0066ff", "brightness_pct": 85}
+      {
+        "color": "#ff003c",
+        "brightness_pct": 90
+      },
+      {
+        "color": "#00ff66",
+        "brightness_pct": 85
+      },
+      {
+        "color": "#0066ff",
+        "brightness_pct": 85
+      }
     ]
   },
   {
     "id": "lofi-chill",
     "name": "Lofi Chill",
-    "description": "Dusty rose, muted teal, and cream — lofi radio vibes.",
-    "category": "Lo-Fi & Loft",
-    "tags": ["lofi", "muted", "chill"],
+    "description": "Dusty rose, muted teal, and cream \u2014 lofi radio vibes.",
+    "category": "Lo-Fi",
+    "tags": [
+      "lofi",
+      "muted",
+      "chill"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#d5a6a6", "brightness_pct": 55},
-      {"color": "#8ea6a6", "brightness_pct": 50},
-      {"color": "#f0e4d0", "brightness_pct": 60}
+      {
+        "color": "#d5a6a6",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#8ea6a6",
+        "brightness_pct": 50
+      },
+      {
+        "color": "#f0e4d0",
+        "brightness_pct": 60
+      }
     ]
   },
   {
     "id": "rainy-window",
     "name": "Rainy Window",
     "description": "Muted blue-grey and soft lavender, moody and low.",
-    "category": "Lo-Fi & Loft",
-    "tags": ["lofi", "muted", "moody"],
+    "category": "Lo-Fi",
+    "tags": [
+      "lofi",
+      "muted",
+      "moody"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#7f9baa", "brightness_pct": 35},
-      {"color": "#b6a6ca", "brightness_pct": 30}
+      {
+        "color": "#7f9baa",
+        "brightness_pct": 35
+      },
+      {
+        "color": "#b6a6ca",
+        "brightness_pct": 30
+      }
     ]
   },
   {
     "id": "loft-industrial",
     "name": "Loft Industrial",
     "description": "Warm Edison-bulb amber, concrete grey, and rust brown.",
-    "category": "Lo-Fi & Loft",
-    "tags": ["loft", "industrial", "warm"],
+    "category": "Loft",
+    "tags": [
+      "loft",
+      "industrial",
+      "warm"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#d98e4a", "brightness_pct": 55},
-      {"color": "#8c8478", "brightness_pct": 45},
-      {"color": "#5c4033", "brightness_pct": 40}
+      {
+        "color": "#d98e4a",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#8c8478",
+        "brightness_pct": 45
+      },
+      {
+        "color": "#5c4033",
+        "brightness_pct": 40
+      }
     ]
   },
   {
     "id": "vinyl-nights",
     "name": "Vinyl Nights",
     "description": "Saturated plum, dusty gold, and pink.",
-    "category": "Lo-Fi & Loft",
-    "tags": ["lofi", "muted", "evening"],
+    "category": "Lo-Fi",
+    "tags": [
+      "lofi",
+      "muted",
+      "evening"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#6a2c5c", "brightness_pct": 35},
-      {"color": "#c9a66b", "brightness_pct": 40},
-      {"color": "#c97b84", "brightness_pct": 35}
+      {
+        "color": "#6a2c5c",
+        "brightness_pct": 35
+      },
+      {
+        "color": "#c9a66b",
+        "brightness_pct": 40
+      },
+      {
+        "color": "#c97b84",
+        "brightness_pct": 35
+      }
     ]
   },
   {
     "id": "late-study-lofi",
     "name": "Late Study Lofi",
     "description": "Muted sage green, cream, and soft brown for late-night focus.",
-    "category": "Lo-Fi & Loft",
-    "tags": ["lofi", "muted", "study"],
+    "category": "Lo-Fi",
+    "tags": [
+      "lofi",
+      "muted",
+      "study"
+    ],
     "source": "bundled",
     "slots": [
-      {"color": "#9caf88", "brightness_pct": 50},
-      {"color": "#f0e4d0", "brightness_pct": 55},
-      {"color": "#a67c52", "brightness_pct": 45}
+      {
+        "color": "#9caf88",
+        "brightness_pct": 50
+      },
+      {
+        "color": "#f0e4d0",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#a67c52",
+        "brightness_pct": 45
+      }
+    ]
+  },
+  {
+    "id": "exposed-brick",
+    "name": "Exposed Brick",
+    "description": "Brick red, warm amber, and charcoal.",
+    "category": "Loft",
+    "tags": [
+      "loft",
+      "industrial",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#8b2e2e",
+        "brightness_pct": 50
+      },
+      {
+        "color": "#b5533c",
+        "brightness_pct": 50
+      },
+      {
+        "color": "#2e2e2e",
+        "brightness_pct": 30
+      }
+    ]
+  },
+  {
+    "id": "concrete-and-steel",
+    "name": "Concrete & Steel",
+    "description": "Cool grey, steel blue, and black.",
+    "category": "Loft",
+    "tags": [
+      "loft",
+      "industrial",
+      "cool"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#9aa0a6",
+        "brightness_pct": 45
+      },
+      {
+        "color": "#5b7c99",
+        "brightness_pct": 40
+      },
+      {
+        "color": "#2b2b2b",
+        "brightness_pct": 30
+      }
+    ]
+  },
+  {
+    "id": "warehouse-window",
+    "name": "Warehouse Window",
+    "description": "Warm amber light through a dusty blue-grey window.",
+    "category": "Loft",
+    "tags": [
+      "loft",
+      "industrial"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#e0a458",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#6b7f8f",
+        "brightness_pct": 40
+      }
+    ]
+  },
+  {
+    "id": "raw-wood-and-iron",
+    "name": "Raw Wood & Iron",
+    "description": "Warm wood brown, cream, and black iron.",
+    "category": "Loft",
+    "tags": [
+      "loft",
+      "industrial",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#8a5228",
+        "brightness_pct": 50
+      },
+      {
+        "color": "#e8dcc4",
+        "brightness_pct": 60
+      },
+      {
+        "color": "#2a2a2a",
+        "brightness_pct": 25
+      }
+    ]
+  },
+  {
+    "id": "cyberpunk-city",
+    "name": "Cyberpunk City",
+    "description": "Hot pink, electric cyan, and deep purple.",
+    "category": "Sci-Fi & Neon",
+    "tags": [
+      "scifi",
+      "neon",
+      "colorful"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#ff2fb0",
+        "brightness_pct": 90
+      },
+      {
+        "color": "#00e5ff",
+        "brightness_pct": 90
+      },
+      {
+        "color": "#1a0b2e",
+        "brightness_pct": 40
+      }
+    ]
+  },
+  {
+    "id": "neon-grid",
+    "name": "Neon Grid",
+    "description": "Electric blue and hot magenta on black.",
+    "category": "Sci-Fi & Neon",
+    "tags": [
+      "scifi",
+      "neon"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#00f0ff",
+        "brightness_pct": 90
+      },
+      {
+        "color": "#ff006e",
+        "brightness_pct": 90
+      },
+      {
+        "color": "#0a0a0a",
+        "brightness_pct": 20
+      }
+    ]
+  },
+  {
+    "id": "holodeck",
+    "name": "Holodeck",
+    "description": "Pale cyan, soft white-blue, and faint violet.",
+    "category": "Sci-Fi & Neon",
+    "tags": [
+      "scifi",
+      "pale"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#a0e8ff",
+        "brightness_pct": 70
+      },
+      {
+        "color": "#e0f7ff",
+        "brightness_pct": 75
+      },
+      {
+        "color": "#b19cd9",
+        "brightness_pct": 60
+      }
+    ]
+  },
+  {
+    "id": "spaceship-bridge",
+    "name": "Spaceship Bridge",
+    "description": "Amber console light in a deep navy cabin.",
+    "category": "Sci-Fi & Neon",
+    "tags": [
+      "scifi",
+      "dark"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#ffb000",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#0b1d3a",
+        "brightness_pct": 20
+      },
+      {
+        "color": "#ff3b30",
+        "brightness_pct": 40
+      }
+    ]
+  },
+  {
+    "id": "matrix-code",
+    "name": "Matrix Code",
+    "description": "Bright green code on black.",
+    "category": "Sci-Fi & Neon",
+    "tags": [
+      "scifi",
+      "green"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#00ff41",
+        "brightness_pct": 80
+      },
+      {
+        "color": "#003b00",
+        "brightness_pct": 25
+      }
+    ]
+  },
+  {
+    "id": "blade-runner-rain",
+    "name": "Blade Runner Rain",
+    "description": "Teal, deep magenta, and blue-grey.",
+    "category": "Sci-Fi & Neon",
+    "tags": [
+      "scifi",
+      "moody"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#0d7377",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#ba1f6b",
+        "brightness_pct": 50
+      },
+      {
+        "color": "#14213d",
+        "brightness_pct": 30
+      }
+    ]
+  },
+  {
+    "id": "morning-meditation",
+    "name": "Morning Meditation",
+    "description": "Warm cream and pale gold.",
+    "category": "Zen & Meditation",
+    "tags": [
+      "calm",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#f5ecd8",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#e8c887",
+        "brightness_pct": 45
+      }
+    ]
+  },
+  {
+    "id": "singing-bowl",
+    "name": "Singing Bowl",
+    "description": "Warm bronze and deep amber.",
+    "category": "Zen & Meditation",
+    "tags": [
+      "calm",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#b08d57",
+        "brightness_pct": 40
+      },
+      {
+        "color": "#8b5a2b",
+        "brightness_pct": 35
+      }
+    ]
+  },
+  {
+    "id": "bamboo-grove",
+    "name": "Bamboo Grove",
+    "description": "Soft green and pale yellow-green.",
+    "category": "Zen & Meditation",
+    "tags": [
+      "calm",
+      "green"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#a8c090",
+        "brightness_pct": 45
+      },
+      {
+        "color": "#6b8f5c",
+        "brightness_pct": 40
+      }
+    ]
+  },
+  {
+    "id": "still-water",
+    "name": "Still Water",
+    "description": "Cool pale blue-grey.",
+    "category": "Zen & Meditation",
+    "tags": [
+      "calm",
+      "cool"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#8fa8b0",
+        "brightness_pct": 40
+      },
+      {
+        "color": "#c8dce0",
+        "brightness_pct": 45
+      }
+    ]
+  },
+  {
+    "id": "incense-smoke",
+    "name": "Incense Smoke",
+    "description": "Muted purple-grey.",
+    "category": "Zen & Meditation",
+    "tags": [
+      "calm",
+      "muted"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#9b8ba8",
+        "brightness_pct": 35
+      },
+      {
+        "color": "#c4bcc9",
+        "brightness_pct": 40
+      }
+    ]
+  },
+  {
+    "id": "espresso-bar",
+    "name": "Espresso Bar",
+    "description": "Dark roast brown and warm amber.",
+    "category": "Coffee Shop & Cafe",
+    "tags": [
+      "cafe",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#3e2723",
+        "brightness_pct": 35
+      },
+      {
+        "color": "#a1662f",
+        "brightness_pct": 50
+      }
+    ]
+  },
+  {
+    "id": "latte-art",
+    "name": "Latte Art",
+    "description": "Creamy tan and warm white.",
+    "category": "Coffee Shop & Cafe",
+    "tags": [
+      "cafe",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#d7b899",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#f2e6d9",
+        "brightness_pct": 60
+      }
+    ]
+  },
+  {
+    "id": "bakery-window",
+    "name": "Bakery Window",
+    "description": "Golden brown and warm yellow.",
+    "category": "Coffee Shop & Cafe",
+    "tags": [
+      "cafe",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#c68642",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#f4c430",
+        "brightness_pct": 60
+      }
+    ]
+  },
+  {
+    "id": "afternoon-tea",
+    "name": "Afternoon Tea",
+    "description": "Dusty rose and soft gold.",
+    "category": "Coffee Shop & Cafe",
+    "tags": [
+      "cafe",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#c98a97",
+        "brightness_pct": 50
+      },
+      {
+        "color": "#e0c19a",
+        "brightness_pct": 55
+      }
+    ]
+  },
+  {
+    "id": "roastery",
+    "name": "Roastery",
+    "description": "Charcoal grey and burnt orange.",
+    "category": "Coffee Shop & Cafe",
+    "tags": [
+      "cafe",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#52585a",
+        "brightness_pct": 30
+      },
+      {
+        "color": "#c0501a",
+        "brightness_pct": 50
+      }
+    ]
+  },
+  {
+    "id": "palm-breeze",
+    "name": "Palm Breeze",
+    "description": "Palm green and sandy beige.",
+    "category": "Tropical & Beach",
+    "tags": [
+      "tropical",
+      "nature"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#4a7c59",
+        "brightness_pct": 50
+      },
+      {
+        "color": "#e8d5b5",
+        "brightness_pct": 60
+      }
+    ]
+  },
+  {
+    "id": "coral-reef",
+    "name": "Coral Reef",
+    "description": "Coral orange, turquoise, and magenta.",
+    "category": "Tropical & Beach",
+    "tags": [
+      "tropical",
+      "colorful"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#ff7f6b",
+        "brightness_pct": 70
+      },
+      {
+        "color": "#40e0d0",
+        "brightness_pct": 65
+      },
+      {
+        "color": "#ff69b4",
+        "brightness_pct": 60
+      }
+    ]
+  },
+  {
+    "id": "tiki-bar",
+    "name": "Tiki Bar",
+    "description": "Warm orange, deep red, and bamboo tan.",
+    "category": "Tropical & Beach",
+    "tags": [
+      "tropical",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#ff8c42",
+        "brightness_pct": 60
+      },
+      {
+        "color": "#c1272d",
+        "brightness_pct": 45
+      },
+      {
+        "color": "#d2b48c",
+        "brightness_pct": 50
+      }
+    ]
+  },
+  {
+    "id": "coconut-grove",
+    "name": "Coconut Grove",
+    "description": "Warm cream and golden brown husk.",
+    "category": "Tropical & Beach",
+    "tags": [
+      "tropical",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#f7ecd9",
+        "brightness_pct": 60
+      },
+      {
+        "color": "#8b5e3c",
+        "brightness_pct": 45
+      }
+    ]
+  },
+  {
+    "id": "turquoise-lagoon",
+    "name": "Turquoise Lagoon",
+    "description": "Turquoise and pale aqua.",
+    "category": "Tropical & Beach",
+    "tags": [
+      "tropical",
+      "cool"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#1fbfc4",
+        "brightness_pct": 60
+      },
+      {
+        "color": "#a8e6e0",
+        "brightness_pct": 65
+      }
+    ]
+  },
+  {
+    "id": "mango-sunset",
+    "name": "Mango Sunset",
+    "description": "Mango orange, hot pink, and purple.",
+    "category": "Tropical & Beach",
+    "tags": [
+      "tropical",
+      "colorful"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#ffb340",
+        "brightness_pct": 70
+      },
+      {
+        "color": "#ff5e78",
+        "brightness_pct": 65
+      },
+      {
+        "color": "#8c5eff",
+        "brightness_pct": 55
+      }
+    ]
+  },
+  {
+    "id": "retro-diner",
+    "name": "Retro Diner",
+    "description": "Diner red, cream, and chrome blue.",
+    "category": "Retro & Vintage",
+    "tags": [
+      "retro",
+      "colorful"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#d62828",
+        "brightness_pct": 65
+      },
+      {
+        "color": "#f7f3e3",
+        "brightness_pct": 65
+      },
+      {
+        "color": "#4d648d",
+        "brightness_pct": 45
+      }
+    ]
+  },
+  {
+    "id": "70s-groove",
+    "name": "70s Groove",
+    "description": "Burnt orange, mustard, and avocado green.",
+    "category": "Retro & Vintage",
+    "tags": [
+      "retro",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#cc5500",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#d4a017",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#6b8e23",
+        "brightness_pct": 45
+      }
+    ]
+  },
+  {
+    "id": "80s-synthwave",
+    "name": "80s Synthwave",
+    "description": "Hot pink, electric purple, and cyan.",
+    "category": "Retro & Vintage",
+    "tags": [
+      "retro",
+      "neon"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#ff2079",
+        "brightness_pct": 85
+      },
+      {
+        "color": "#7b2ff7",
+        "brightness_pct": 80
+      },
+      {
+        "color": "#00d9ff",
+        "brightness_pct": 80
+      }
+    ]
+  },
+  {
+    "id": "vintage-polaroid",
+    "name": "Vintage Polaroid",
+    "description": "Faded yellow, dusty rose, and sepia.",
+    "category": "Retro & Vintage",
+    "tags": [
+      "retro",
+      "muted"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#e8d174",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#c88a97",
+        "brightness_pct": 50
+      },
+      {
+        "color": "#8b6f47",
+        "brightness_pct": 40
+      }
+    ]
+  },
+  {
+    "id": "drive-in-movie",
+    "name": "Drive-In Movie",
+    "description": "Deep blue, marquee red, and gold.",
+    "category": "Retro & Vintage",
+    "tags": [
+      "retro",
+      "evening"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#1c3f60",
+        "brightness_pct": 35
+      },
+      {
+        "color": "#d4342c",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#f0b429",
+        "brightness_pct": 50
+      }
+    ]
+  },
+  {
+    "id": "arcade-classic",
+    "name": "Arcade Classic",
+    "description": "Neon red, blue, and yellow.",
+    "category": "Retro & Vintage",
+    "tags": [
+      "retro",
+      "neon",
+      "gaming"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#ff073a",
+        "brightness_pct": 85
+      },
+      {
+        "color": "#0aefff",
+        "brightness_pct": 85
+      },
+      {
+        "color": "#f9f002",
+        "brightness_pct": 80
+      }
+    ]
+  },
+  {
+    "id": "nebula",
+    "name": "Nebula",
+    "description": "Deep purple, magenta, and blue.",
+    "category": "Space & Galaxy",
+    "tags": [
+      "space",
+      "colorful"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#6a0dad",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#c724b1",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#1e3a8a",
+        "brightness_pct": 45
+      }
+    ]
+  },
+  {
+    "id": "aurora-borealis",
+    "name": "Aurora Borealis",
+    "description": "Green, teal, and purple.",
+    "category": "Space & Galaxy",
+    "tags": [
+      "space",
+      "nature"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#00ff87",
+        "brightness_pct": 65
+      },
+      {
+        "color": "#00c9a7",
+        "brightness_pct": 60
+      },
+      {
+        "color": "#6c5ce7",
+        "brightness_pct": 55
+      }
+    ]
+  },
+  {
+    "id": "deep-space",
+    "name": "Deep Space",
+    "description": "Near-black navy and deep indigo.",
+    "category": "Space & Galaxy",
+    "tags": [
+      "space",
+      "dark"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#05060f",
+        "brightness_pct": 15
+      },
+      {
+        "color": "#1a1a3e",
+        "brightness_pct": 20
+      }
+    ]
+  },
+  {
+    "id": "mars-landscape",
+    "name": "Mars Landscape",
+    "description": "Rust red and dusty orange.",
+    "category": "Space & Galaxy",
+    "tags": [
+      "space",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#b7410e",
+        "brightness_pct": 50
+      },
+      {
+        "color": "#cd853f",
+        "brightness_pct": 50
+      }
+    ]
+  },
+  {
+    "id": "starlight",
+    "name": "Starlight",
+    "description": "Pale white-blue and soft silver.",
+    "category": "Space & Galaxy",
+    "tags": [
+      "space",
+      "pale"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#dbe9ff",
+        "brightness_pct": 70
+      },
+      {
+        "color": "#c0c8d6",
+        "brightness_pct": 60
+      }
+    ]
+  },
+  {
+    "id": "supernova",
+    "name": "Supernova",
+    "description": "Bright orange, white-hot, and deep red.",
+    "category": "Space & Galaxy",
+    "tags": [
+      "space",
+      "bright"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#ff6b00",
+        "brightness_pct": 90
+      },
+      {
+        "color": "#fff4e0",
+        "brightness_pct": 95
+      },
+      {
+        "color": "#8b0000",
+        "brightness_pct": 55
+      }
+    ]
+  },
+  {
+    "id": "enchanted-forest",
+    "name": "Enchanted Forest",
+    "description": "Deep green and gold sparkle.",
+    "category": "Fantasy & Magic",
+    "tags": [
+      "fantasy",
+      "nature"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#1b4d3e",
+        "brightness_pct": 40
+      },
+      {
+        "color": "#d4af37",
+        "brightness_pct": 50
+      }
+    ]
+  },
+  {
+    "id": "dragons-lair",
+    "name": "Dragon's Lair",
+    "description": "Deep red, black, and ember orange.",
+    "category": "Fantasy & Magic",
+    "tags": [
+      "fantasy",
+      "dark"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#8b0000",
+        "brightness_pct": 45
+      },
+      {
+        "color": "#1a1a1a",
+        "brightness_pct": 25
+      },
+      {
+        "color": "#ff4500",
+        "brightness_pct": 60
+      }
+    ]
+  },
+  {
+    "id": "wizards-study",
+    "name": "Wizard's Study",
+    "description": "Deep purple and parchment tan.",
+    "category": "Fantasy & Magic",
+    "tags": [
+      "fantasy",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#4b0082",
+        "brightness_pct": 40
+      },
+      {
+        "color": "#d2b48c",
+        "brightness_pct": 50
+      }
+    ]
+  },
+  {
+    "id": "fairy-garden",
+    "name": "Fairy Garden",
+    "description": "Pastel pink, green, and yellow.",
+    "category": "Fantasy & Magic",
+    "tags": [
+      "fantasy",
+      "pastel"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#ffb3d9",
+        "brightness_pct": 60
+      },
+      {
+        "color": "#b3ffcc",
+        "brightness_pct": 60
+      },
+      {
+        "color": "#fff3b3",
+        "brightness_pct": 65
+      }
+    ]
+  },
+  {
+    "id": "crystal-cave",
+    "name": "Crystal Cave",
+    "description": "Ice blue, violet, and white.",
+    "category": "Fantasy & Magic",
+    "tags": [
+      "fantasy",
+      "cool"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#a0d8ef",
+        "brightness_pct": 60
+      },
+      {
+        "color": "#c8a2c8",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#f0f8ff",
+        "brightness_pct": 65
+      }
+    ]
+  },
+  {
+    "id": "potion-brew",
+    "name": "Potion Brew",
+    "description": "Toxic green, purple, and dark bottle green.",
+    "category": "Fantasy & Magic",
+    "tags": [
+      "fantasy",
+      "colorful"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#7fff00",
+        "brightness_pct": 65
+      },
+      {
+        "color": "#9400d3",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#013220",
+        "brightness_pct": 30
+      }
+    ]
+  },
+  {
+    "id": "succulent-garden",
+    "name": "Succulent Garden",
+    "description": "Sage green and terracotta.",
+    "category": "Botanical & Greenhouse",
+    "tags": [
+      "nature",
+      "green"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#9caf88",
+        "brightness_pct": 50
+      },
+      {
+        "color": "#c1440e",
+        "brightness_pct": 45
+      }
+    ]
+  },
+  {
+    "id": "fern-grotto",
+    "name": "Fern Grotto",
+    "description": "Deep fern and moss green.",
+    "category": "Botanical & Greenhouse",
+    "tags": [
+      "nature",
+      "green"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#2d5a3d",
+        "brightness_pct": 40
+      },
+      {
+        "color": "#6b8f47",
+        "brightness_pct": 40
+      }
+    ]
+  },
+  {
+    "id": "orchid-house",
+    "name": "Orchid House",
+    "description": "Orchid purple-pink and soft green.",
+    "category": "Botanical & Greenhouse",
+    "tags": [
+      "nature",
+      "colorful"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#b565a7",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#7fa87f",
+        "brightness_pct": 45
+      }
+    ]
+  },
+  {
+    "id": "herb-garden",
+    "name": "Herb Garden",
+    "description": "Basil green and golden clay.",
+    "category": "Botanical & Greenhouse",
+    "tags": [
+      "nature",
+      "green"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#4f7942",
+        "brightness_pct": 45
+      },
+      {
+        "color": "#e0a52e",
+        "brightness_pct": 50
+      }
+    ]
+  },
+  {
+    "id": "tropical-leaf",
+    "name": "Tropical Leaf",
+    "description": "Jungle green and lime.",
+    "category": "Botanical & Greenhouse",
+    "tags": [
+      "nature",
+      "green"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#0b6623",
+        "brightness_pct": 40
+      },
+      {
+        "color": "#9acd32",
+        "brightness_pct": 55
+      }
+    ]
+  },
+  {
+    "id": "cabernet-evening",
+    "name": "Cabernet Evening",
+    "description": "Deep burgundy and dark plum.",
+    "category": "Wine & Vineyard",
+    "tags": [
+      "evening",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#6d071a",
+        "brightness_pct": 35
+      },
+      {
+        "color": "#4a0e2e",
+        "brightness_pct": 30
+      }
+    ]
+  },
+  {
+    "id": "chardonnay-afternoon",
+    "name": "Chardonnay Afternoon",
+    "description": "Pale gold and warm straw.",
+    "category": "Wine & Vineyard",
+    "tags": [
+      "afternoon",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#e8d48a",
+        "brightness_pct": 65
+      },
+      {
+        "color": "#d4a843",
+        "brightness_pct": 55
+      }
+    ]
+  },
+  {
+    "id": "rose-sunset",
+    "name": "Ros\u00e9 Sunset",
+    "description": "Dusty pink and peach.",
+    "category": "Wine & Vineyard",
+    "tags": [
+      "evening",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#e8a0a8",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#f4c2a1",
+        "brightness_pct": 60
+      }
+    ]
+  },
+  {
+    "id": "vineyard-dusk",
+    "name": "Vineyard Dusk",
+    "description": "Deep vine green and grape purple.",
+    "category": "Wine & Vineyard",
+    "tags": [
+      "evening",
+      "nature"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#3d5c3a",
+        "brightness_pct": 35
+      },
+      {
+        "color": "#5c2a5c",
+        "brightness_pct": 35
+      }
+    ]
+  },
+  {
+    "id": "soft-clouds",
+    "name": "Soft Clouds",
+    "description": "Near-white grey with a hint of blue.",
+    "category": "Baby & Nursery",
+    "tags": [
+      "pastel",
+      "calm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#f2f2f2",
+        "brightness_pct": 65
+      },
+      {
+        "color": "#e0e0e0",
+        "brightness_pct": 55
+      }
+    ]
+  },
+  {
+    "id": "gentle-mint",
+    "name": "Gentle Mint",
+    "description": "Pastel mint and white.",
+    "category": "Baby & Nursery",
+    "tags": [
+      "pastel",
+      "green"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#7dd8ae",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#eafaf1",
+        "brightness_pct": 65
+      }
+    ]
+  },
+  {
+    "id": "powder-blue",
+    "name": "Powder Blue",
+    "description": "Powder blue and pale yellow.",
+    "category": "Baby & Nursery",
+    "tags": [
+      "pastel",
+      "cool"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#7fb3d9",
+        "brightness_pct": 55
+      },
+      {
+        "color": "#f7e8b0",
+        "brightness_pct": 60
+      }
+    ]
+  },
+  {
+    "id": "blush-pink",
+    "name": "Blush Pink",
+    "description": "Blush pink and cream.",
+    "category": "Baby & Nursery",
+    "tags": [
+      "pastel",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#f5c2c7",
+        "brightness_pct": 60
+      },
+      {
+        "color": "#faf0e6",
+        "brightness_pct": 65
+      }
+    ]
+  },
+  {
+    "id": "starry-nursery",
+    "name": "Starry Nursery",
+    "description": "Deep navy and soft gold stars.",
+    "category": "Baby & Nursery",
+    "tags": [
+      "pastel",
+      "evening"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#1a2744",
+        "brightness_pct": 25
+      },
+      {
+        "color": "#f0d78c",
+        "brightness_pct": 40
+      }
+    ]
+  },
+  {
+    "id": "city-skyline",
+    "name": "City Skyline",
+    "description": "Deep navy and amber window light.",
+    "category": "Urban Night",
+    "tags": [
+      "night",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#0d1b2a",
+        "brightness_pct": 25
+      },
+      {
+        "color": "#f0a830",
+        "brightness_pct": 55
+      }
+    ]
+  },
+  {
+    "id": "rooftop-bar",
+    "name": "Rooftop Bar",
+    "description": "Terracotta sunset and deep purple dusk.",
+    "category": "Urban Night",
+    "tags": [
+      "night",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#d2691e",
+        "brightness_pct": 50
+      },
+      {
+        "color": "#3d2b5c",
+        "brightness_pct": 35
+      }
+    ]
+  },
+  {
+    "id": "subway-station",
+    "name": "Subway Station",
+    "description": "Cool fluorescent white, steel grey, and safety yellow.",
+    "category": "Urban Night",
+    "tags": [
+      "night",
+      "cool"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#e8f0f5",
+        "brightness_pct": 65
+      },
+      {
+        "color": "#6b7280",
+        "brightness_pct": 40
+      },
+      {
+        "color": "#f4d03f",
+        "brightness_pct": 55
+      }
+    ]
+  },
+  {
+    "id": "neon-alley",
+    "name": "Neon Alley",
+    "description": "Hot pink, cyan, and black.",
+    "category": "Urban Night",
+    "tags": [
+      "night",
+      "neon"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#ff2e88",
+        "brightness_pct": 80
+      },
+      {
+        "color": "#00d4ff",
+        "brightness_pct": 80
+      },
+      {
+        "color": "#0a0a0a",
+        "brightness_pct": 20
+      }
+    ]
+  },
+  {
+    "id": "penthouse-view",
+    "name": "Penthouse View",
+    "description": "Champagne gold and cool slate blue.",
+    "category": "Urban Night",
+    "tags": [
+      "night",
+      "luxury"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#d9c48f",
+        "brightness_pct": 50
+      },
+      {
+        "color": "#4a5a70",
+        "brightness_pct": 35
+      }
+    ]
+  },
+  {
+    "id": "stealth-mode",
+    "name": "Stealth Mode",
+    "description": "Dark tactical green and black.",
+    "category": "Gaming",
+    "tags": [
+      "gaming",
+      "dark"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#0d3b1a",
+        "brightness_pct": 30
+      },
+      {
+        "color": "#0a0a0a",
+        "brightness_pct": 15
+      }
+    ]
+  },
+  {
+    "id": "boss-battle",
+    "name": "Boss Battle",
+    "description": "Intense red, orange, and black.",
+    "category": "Gaming",
+    "tags": [
+      "gaming",
+      "bright"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#d90429",
+        "brightness_pct": 90
+      },
+      {
+        "color": "#f77f00",
+        "brightness_pct": 85
+      },
+      {
+        "color": "#000000",
+        "brightness_pct": 20
+      }
+    ]
+  },
+  {
+    "id": "popcorn-matinee",
+    "name": "Popcorn Matinee",
+    "description": "Cinema curtain red and gold.",
+    "category": "Movie & TV",
+    "tags": [
+      "evening",
+      "warm"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#8b1a1a",
+        "brightness_pct": 40
+      },
+      {
+        "color": "#d4af37",
+        "brightness_pct": 45
+      }
+    ]
+  },
+  {
+    "id": "sci-fi-marathon",
+    "name": "Sci-Fi Marathon",
+    "description": "Cool blue and teal backlighting.",
+    "category": "Movie & TV",
+    "tags": [
+      "evening",
+      "cool"
+    ],
+    "source": "bundled",
+    "slots": [
+      {
+        "color": "#1b3a5c",
+        "brightness_pct": 20
+      },
+      {
+        "color": "#2a9d8f",
+        "brightness_pct": 25
+      }
     ]
   }
 ]
