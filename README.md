@@ -39,18 +39,44 @@ extensible.
 - **Favorites**: star any theme or effect to bookmark it — a "★
   Favorites" filter shows just your starred items. Favoriting a *theme*
   also creates/updates a real Home Assistant scene entity
-  (`scene.tl_<name>`), snapshotted onto your current target lights, so
-  you can add it as a one-tap button on your own Lovelace dashboard
-  (**Edit Dashboard → Add Card → Entity/Button**, pick the scene).
-  Un-favoriting just removes the bookmark — the scene entity is left in
-  place since it's harmless and cheap to keep.
-  - **One-time cleanup HA makes you do**: scenes created this way
-    (via the `scene.create` service) aren't in HA's entity registry, so
-    HA shows a raw, ugly name/generic icon instead of the theme's actual
-    name. Open the scene's entity dialog and tap the **⚙ gear icon** to
-    give it a proper name/icon — this is a normal HA thing for any
-    dynamically-created entity, not specific to this app, and it's a
-    one-time fix that persists.
+  (`scene.tl_<name>`), snapshotted onto your current target lights.
+  You *can* add this straight to your dashboard (**Edit Dashboard → Add
+  Card → Button**, pick the scene, and set a Name/Icon in the card's own
+  editor — the entity itself can't be renamed since `scene.create`
+  entities have no `unique_id`), but for real, fully-manageable buttons
+  see the companion integration below.
+
+## Companion integration: real buttons for your favorites
+
+The add-on's Favorites scenes work, but Home Assistant can't manage
+their name/icon/area since they lack a `unique_id` (a `scene.create`
+limitation, not fixable from the add-on side). `custom_components/theme_library/`
+is a small companion **integration** that fixes this properly: it polls
+the add-on for your favorited themes and exposes each one as a real
+`button` entity under a "Light Theme Library" **device** — fully
+renameable, assignable to an area, and pressable from any dashboard,
+the same as any other HA entity.
+
+**Install:**
+
+1. Copy `custom_components/theme_library/` from this repo into
+   `config/custom_components/theme_library/` on your HA instance (same
+   Samba/SSH access as the add-on).
+2. Restart Home Assistant Core (Settings → System → Restart, not the
+   add-on).
+3. **Settings → Devices & Services → Add Integration** → search "Light
+   Theme Library" → accept the default URL (works as long as the
+   add-on's slug is unchanged) → Submit.
+4. A "Light Theme Library" device appears with one button per favorited
+   theme. Add them to your dashboard, rename/re-icon them, assign an
+   area — all through HA's normal entity settings.
+
+**Current limitations:** only themes get buttons (not effects); un-favoriting
+a theme doesn't remove its button, just marks it unavailable; and this
+hasn't been tested against a live Home Assistant instance yet — if
+setup or button presses fail, the error should point at what's wrong
+(usually connectivity to the add-on), but please report back what you
+see.
 
 ## Install via the published repository (recommended)
 

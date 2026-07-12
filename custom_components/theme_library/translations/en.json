@@ -1,0 +1,19 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to Light Theme Library",
+        "description": "Enter the local URL of your Light Theme Library add-on. The default should work if you haven't changed the add-on's hostname.",
+        "data": {
+          "url": "Add-on URL"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Couldn't reach the add-on at that URL. Make sure it's installed and running."
+    },
+    "abort": {
+      "already_configured": "Light Theme Library is already set up."
+    }
+  }
+}
