@@ -50,6 +50,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
 
 
 class ThemeButton(ButtonEntity):
+    _attr_has_entity_name = True
+
     def __init__(self, engine: ThemeLibraryEngine, entry: ConfigEntry, theme: dict) -> None:
         self._engine = engine
         self._theme_id = theme["id"]
