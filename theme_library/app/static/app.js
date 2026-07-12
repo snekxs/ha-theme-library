@@ -1,7 +1,10 @@
 const grid = document.getElementById("grid");
 const toast = document.getElementById("toast");
+const targetLightsEl = document.getElementById("target-lights");
+const targetCountEl = document.getElementById("target-count");
 
-let currentApplyThemeId = null;
+let allLights = [];
+let savedTargetIds = [];
 
 function showToast(msg, isError = false) {
   toast.textContent = msg;
@@ -44,7 +47,7 @@ function themeCard(theme) {
       </div>
     </div>
   `;
-  el.querySelector(".apply-btn").addEventListener("click", () => openApplyModal(theme));
+  el.querySelector(".apply-btn").addEventListener("click", () => applyTheme(theme));
   el.querySelector(".share-btn").addEventListener("click", () => shareTheme(theme));
   const delBtn = el.querySelector(".delete-btn");
   if (delBtn) delBtn.addEventListener("click", () => deleteTheme(theme));
@@ -77,16 +80,61 @@ async function shareTheme(theme) {
   }
 }
 
-async function fetchLights() {
-  return api("lights");
+async function applyTheme(theme) {
+  if (!savedTargetIds.length) {
+    showToast("Select your target lights above first", true);
+    return;
+  }
+  try {
+    await api(`themes/${theme.id}/apply`, {
+      method: "POST",
+      body: JSON.stringify({ entity_ids: savedTargetIds }),
+    });
+    showToast(`Applied "${theme.name}"`);
+  } catch (e) {
+    showToast(e.message, true);
+  }
 }
 
-function renderLightCheckboxes(container, lights, allChecked = true) {
+function updateTargetCount() {
+  targetCountEl.textContent = savedTargetIds.length
+    ? `${savedTargetIds.length} selected`
+    : "none selected";
+}
+
+function renderTargetLights() {
+  targetLightsEl.innerHTML = "";
+  allLights.forEach((light) => {
+    const row = document.createElement("label");
+    row.className = "light-row";
+    const checked = savedTargetIds.includes(light.entity_id);
+    row.innerHTML = `<input type="checkbox" value="${light.entity_id}" ${checked ? "checked" : ""}/> ${light.name}`;
+    row.querySelector("input").addEventListener("change", onTargetLightsChanged);
+    targetLightsEl.appendChild(row);
+  });
+  updateTargetCount();
+}
+
+async function onTargetLightsChanged() {
+  savedTargetIds = Array.from(targetLightsEl.querySelectorAll("input:checked")).map((i) => i.value);
+  updateTargetCount();
+  try {
+    await api("target-lights", {
+      method: "POST",
+      body: JSON.stringify({ entity_ids: savedTargetIds }),
+    });
+  } catch (e) {
+    showToast(e.message, true);
+  }
+}
+
+function renderLightCheckboxes(container, lights, checkedIds) {
   container.innerHTML = "";
   lights.forEach((light) => {
     const row = document.createElement("label");
     row.className = "light-row";
-    row.innerHTML = `<input type="checkbox" value="${light.entity_id}" ${allChecked ? "checked" : ""}/> ${light.name}`;
+    const checked = checkedIds.includes(light.entity_id);
+    row.innerHTML = `<input type="checkbox" value="${light.entity_id}" ${checked ? "checked" : ""}/> ${light.name}`;
     container.appendChild(row);
   });
 }
@@ -95,51 +143,15 @@ function getCheckedEntityIds(container) {
   return Array.from(container.querySelectorAll("input:checked")).map((i) => i.value);
 }
 
-const applyModal = document.getElementById("apply-modal");
-const applyLightsEl = document.getElementById("apply-lights");
-const applyModalTitle = document.getElementById("apply-modal-title");
-
-async function openApplyModal(theme) {
-  currentApplyThemeId = theme.id;
-  applyModalTitle.textContent = `Apply "${theme.name}"`;
-  try {
-    const lights = await fetchLights();
-    renderLightCheckboxes(applyLightsEl, lights, true);
-    applyModal.classList.remove("hidden");
-  } catch (e) {
-    showToast(e.message, true);
-  }
-}
-
-document.getElementById("apply-confirm").addEventListener("click", async () => {
-  const entityIds = getCheckedEntityIds(applyLightsEl);
-  if (!entityIds.length) return showToast("Select at least one light", true);
-  try {
-    await api(`themes/${currentApplyThemeId}/apply`, {
-      method: "POST",
-      body: JSON.stringify({ entity_ids: entityIds }),
-    });
-    showToast("Theme applied");
-    applyModal.classList.add("hidden");
-  } catch (e) {
-    showToast(e.message, true);
-  }
-});
-
 const createModal = document.getElementById("create-modal");
 const createLightsEl = document.getElementById("create-lights");
 
-document.getElementById("create-btn").addEventListener("click", async () => {
+document.getElementById("create-btn").addEventListener("click", () => {
   document.getElementById("create-name").value = "";
   document.getElementById("create-desc").value = "";
   document.getElementById("create-tags").value = "";
-  try {
-    const lights = await fetchLights();
-    renderLightCheckboxes(createLightsEl, lights, false);
-    createModal.classList.remove("hidden");
-  } catch (e) {
-    showToast(e.message, true);
-  }
+  renderLightCheckboxes(createLightsEl, allLights, savedTargetIds);
+  createModal.classList.remove("hidden");
 });
 
 document.getElementById("create-confirm").addEventListener("click", async () => {
@@ -174,4 +186,14 @@ document.querySelectorAll("[data-close]").forEach((btn) => {
   });
 });
 
-loadThemes().catch((e) => showToast(e.message, true));
+async function init() {
+  try {
+    [allLights, savedTargetIds] = await Promise.all([api("lights"), api("target-lights")]);
+    renderTargetLights();
+  } catch (e) {
+    showToast(e.message, true);
+  }
+  loadThemes().catch((e) => showToast(e.message, true));
+}
+
+init();

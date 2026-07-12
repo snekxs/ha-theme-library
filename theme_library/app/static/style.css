@@ -37,6 +37,33 @@ body {
 
 .topbar h1 { font-size: 1.3rem; margin: 0; }
 
+.target-bar {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.target-bar-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.target-bar-header h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.light-list-horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
+  max-height: none;
+}
+
+.light-list-horizontal .light-row {
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));

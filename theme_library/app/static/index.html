@@ -12,19 +12,16 @@
     <button id="create-btn" class="btn btn-primary">+ New Theme</button>
   </header>
 
-  <main id="grid" class="grid"></main>
-
-  <div id="apply-modal" class="modal hidden">
-    <div class="modal-card">
-      <h2 id="apply-modal-title">Apply theme</h2>
-      <p class="muted">Choose which lights to apply this to. Colors are assigned round-robin across your selection.</p>
-      <div id="apply-lights" class="light-list"></div>
-      <div class="modal-actions">
-        <button class="btn" data-close="apply-modal">Cancel</button>
-        <button id="apply-confirm" class="btn btn-primary">Apply</button>
-      </div>
+  <section class="target-bar">
+    <div class="target-bar-header">
+      <h2>Target Lights</h2>
+      <span id="target-count" class="muted"></span>
     </div>
-  </div>
+    <p class="muted">Themes apply to whatever's checked here. Selection is saved automatically.</p>
+    <div id="target-lights" class="light-list light-list-horizontal"></div>
+  </section>
+
+  <main id="grid" class="grid"></main>
 
   <div id="create-modal" class="modal hidden">
     <div class="modal-card">

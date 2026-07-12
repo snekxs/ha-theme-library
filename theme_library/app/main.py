@@ -4,6 +4,7 @@ import re
 import shutil
 import urllib.parse
 from pathlib import Path
+from typing import Optional
 
 import httpx
 from fastapi import FastAPI, HTTPException
@@ -14,6 +15,7 @@ APP_DIR = Path(__file__).parent
 DATA_DIR = Path(os.environ.get("THEME_LIBRARY_DATA_DIR", "/data"))
 THEMES_FILE = DATA_DIR / "themes.json"
 DEFAULT_THEMES_FILE = APP_DIR / "themes_default.json"
+TARGET_LIGHTS_FILE = DATA_DIR / "target_lights.json"
 
 SUPERVISOR_TOKEN = os.environ.get("SUPERVISOR_TOKEN", "")
 HA_API_BASE = "http://supervisor/core/api"
@@ -55,6 +57,17 @@ def load_themes() -> list:
 def save_themes(themes: list):
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     THEMES_FILE.write_text(json.dumps(themes, indent=2))
+
+
+def load_target_lights() -> list:
+    if not TARGET_LIGHTS_FILE.exists():
+        return []
+    return json.loads(TARGET_LIGHTS_FILE.read_text())
+
+
+def save_target_lights(entity_ids: list):
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    TARGET_LIGHTS_FILE.write_text(json.dumps(entity_ids, indent=2))
 
 
 def slugify(name: str) -> str:
@@ -106,6 +119,10 @@ class CaptureRequest(BaseModel):
 
 
 class ApplyRequest(BaseModel):
+    entity_ids: Optional[list[str]] = None
+
+
+class TargetLightsUpdate(BaseModel):
     entity_ids: list[str]
 
 
@@ -121,6 +138,17 @@ async def list_lights():
         }
         for s in lights
     ]
+
+
+@app.get("/api/target-lights")
+def get_target_lights():
+    return load_target_lights()
+
+
+@app.post("/api/target-lights")
+def set_target_lights(payload: TargetLightsUpdate):
+    save_target_lights(payload.entity_ids)
+    return payload.entity_ids
 
 
 @app.get("/api/themes")
@@ -186,12 +214,14 @@ async def apply_theme(theme_id: str, payload: ApplyRequest):
     theme = next((t for t in themes if t["id"] == theme_id), None)
     if not theme:
         raise HTTPException(404, "Theme not found")
-    if not payload.entity_ids:
-        raise HTTPException(400, "Select at least one target light")
+
+    entity_ids = payload.entity_ids if payload.entity_ids else load_target_lights()
+    if not entity_ids:
+        raise HTTPException(400, "No target lights selected. Pick your target lights at the top of the page first.")
 
     slots = theme["slots"]
     results = []
-    for i, entity_id in enumerate(payload.entity_ids):
+    for i, entity_id in enumerate(entity_ids):
         slot = slots[i % len(slots)]
         rgb = hex_to_rgb(slot["color"])
         body = {
