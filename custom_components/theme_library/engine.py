@@ -86,6 +86,18 @@ class ThemeLibraryEngine:
             self._active_theme_id = theme_id
             async_dispatcher_send(self.hass, SIGNAL_ACTIVE_THEME_CHANGED)
 
+    async def turn_off_lights(self, entity_ids: list) -> None:
+        await self.stop_dynamic()
+        self._set_active_theme(None)
+        for entity_id in entity_ids:
+            await self._safe_turn_off(entity_id)
+
+    async def _safe_turn_off(self, entity_id: str) -> None:
+        try:
+            await self.hass.services.async_call("light", "turn_off", {"entity_id": entity_id}, blocking=True)
+        except Exception:
+            pass
+
     async def _turn_on(self, entity_id: str, rgb: list, brightness_pct: int, transition: float | None = None) -> None:
         data = {"entity_id": entity_id, "rgb_color": rgb, "brightness_pct": brightness_pct}
         if transition is not None:

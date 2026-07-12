@@ -35,15 +35,16 @@ Core itself.
 - **Create your own theme**: pick lights, set them how you want via HA,
   then hit "+ New" to capture their current color/brightness as a
   reusable theme.
-- **Favorites → real buttons**: star a theme and it becomes its own
-  device, named exactly the theme (e.g. "Sunset Glow"), with two
-  entities — a **button** (press to apply) and a **binary sensor**
-  ("Active") that turns on when that theme is the one currently applied
-  or cycling, and off once a different theme/effect takes over. Both
-  have real `unique_id`s — assignable to an area, addable to any
+- **Favorites → real switches**: star a theme and it becomes its own
+  device, named exactly the theme (e.g. "Sunset Glow"), with a single
+  **switch** entity. Turning it on applies the theme; the switch shows
+  on/off state directly (on when that theme is the one currently applied
+  or cycling, off once a different theme/effect takes over) — no
+  separate status entity needed. Turning it off turns off your target
+  lights. Has a real `unique_id` — assignable to an area, addable to any
   dashboard, fully renameable through HA's normal entity settings.
   (Favoriting also creates a matching HA scene as a byproduct, but the
-  button is the intended way to use this.)
+  switch is the intended way to use this.)
 
 ## Install via HACS (recommended)
 

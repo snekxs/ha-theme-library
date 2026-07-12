@@ -11,7 +11,7 @@ from .engine import ThemeLibraryEngine
 from .storage import ThemeLibraryStorage
 from .views import all_views
 
-PLATFORMS = ["button", "binary_sensor"]
+PLATFORMS = ["switch"]
 WWW_DIR = Path(__file__).parent / "www"
 
 
