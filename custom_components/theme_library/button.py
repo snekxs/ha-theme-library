@@ -3,7 +3,6 @@ from __future__ import annotations
 from homeassistant.components.button import ButtonEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.device_registry import DeviceEntryType
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity import DeviceInfo
@@ -46,50 +45,34 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
             if theme_id not in newly_added_ids:
                 button.set_favorited(theme_id in favorite_ids)
 
-        # Force the registry name to exactly the theme name, regardless of
-        # whatever name got stored the first time this entity was ever
-        # registered (has_entity_name composition only applies at that
-        # first registration — it doesn't retroactively fix entities that
-        # already exist in the registry from before this was corrected).
-        registry = er.async_get(hass)
-        for theme_id in known_ids:
-            theme = theme_by_id.get(theme_id)
-            if not theme:
-                continue
-            unique_id = f"{entry.entry_id}_{theme_id}"
-            entity_id = registry.async_get_entity_id("button", DOMAIN, unique_id)
-            if not entity_id:
-                continue
-            reg_entry = registry.async_get(entity_id)
-            if reg_entry and (reg_entry.name is not None or reg_entry.original_name != theme["name"]):
-                registry.async_update_entity(entity_id, name=None, original_name=theme["name"])
-
     entry.async_on_unload(async_dispatcher_connect(hass, SIGNAL_FAVORITES_CHANGED, _sync_entities))
     await _sync_entities()
 
 
 class ThemeButton(ButtonEntity):
-    # ButtonEntity defaults _attr_has_entity_name to True at the class
-    # level, which composes the displayed name as "{device} {entity}"
-    # whenever a device has multiple entities (all our buttons share one
-    # "Light Theme Library" device) — that's what was truncating to
-    # "Light Theme..." on dashboard tiles. Explicitly forcing it back to
-    # False (not just omitting an override) so _attr_name is the whole
-    # name, e.g. just "Sunset Glow".
-    _attr_has_entity_name = False
+    # Current HA versions compose friendly_name as "{device} {entity}" for
+    # any entity that's one of several on a shared device — has_entity_name
+    # isn't something we can opt out of to avoid that. So instead of one
+    # shared "Light Theme Library" device with many named buttons on it
+    # (which HA has no way to display without the device-name prefix), each
+    # theme gets its own single-button device, named exactly the theme.
+    # With has_entity_name=True and _attr_name=None, the entity IS the
+    # device's one feature, so friendly_name = device.name alone — e.g.
+    # just "Sunset Glow", no prefix.
+    _attr_has_entity_name = True
+    _attr_name = None
 
     def __init__(self, engine: ThemeLibraryEngine, entry: ConfigEntry, theme: dict) -> None:
         self._engine = engine
         self._theme_id = theme["id"]
         self._favorited = True
         self._attr_unique_id = f"{entry.entry_id}_{theme['id']}"
-        self._attr_name = theme["name"]
         self._attr_icon = "mdi:palette"
         self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, entry.entry_id)},
-            name="Light Theme Library",
+            identifiers={(DOMAIN, theme["id"])},
+            name=theme["name"],
             manufacturer="Light Theme Library",
-            model="Theme Buttons",
+            model="Theme Button",
             entry_type=DeviceEntryType.SERVICE,
         )
 

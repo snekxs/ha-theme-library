@@ -35,13 +35,14 @@ Core itself.
 - **Create your own theme**: pick lights, set them how you want via HA,
   then hit "+ New" to capture their current color/brightness as a
   reusable theme.
-- **Favorites → real buttons**: star a theme and it becomes a proper
-  `button` entity under a "Light Theme Library" **device**, with a real
-  `unique_id` — fully renameable, assignable to an area, addable to any
-  dashboard through HA's normal entity settings. (Favoriting also creates
-  a matching HA scene as a byproduct, but the button entity is the
-  intended way to use this — the scene has no such management support
-  since `scene.create` entities can't have a `unique_id`.)
+- **Favorites → real buttons**: star a theme and it becomes its own
+  single-button **device**, named exactly the theme (e.g. "Sunset Glow"),
+  with a real `unique_id` — assignable to an area, addable to any
+  dashboard, and shows with a clean name with no prefix, through HA's
+  normal entity settings. (Favoriting also creates a matching HA scene as
+  a byproduct, but the button is the intended way to use this — the
+  scene has no such management support since `scene.create` entities
+  can't have a `unique_id`.)
 
 ## Install via HACS (recommended)
 
