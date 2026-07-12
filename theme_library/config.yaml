@@ -1,5 +1,5 @@
 name: Light Theme Library
-version: "0.2.0"
+version: "0.2.1"
 slug: theme_library
 description: Browse, create, and apply light presets/themes across your smart lights.
 url: https://github.com/snekxs/ha-theme-library

@@ -9,42 +9,64 @@ extensible and shareable.
 - Ships with a handful of bundled themes (Relax, Energize, Concentrate,
   Reading, Sunset Glow, Movie Night).
 - Themes are **palettes**, not fixed scenes: a theme is a list of
-  color/brightness "slots" with no hardcoded entity IDs. When you apply a
-  theme you pick which lights to apply it to, and slots are assigned
-  round-robin across your selection — so the same theme works on any room,
-  on any instance.
+  color/brightness "slots" with no hardcoded entity IDs. Slots are assigned
+  round-robin across your target lights — so the same theme works on any
+  room, on any instance.
+- **Target Lights bar**: pick which lights themes apply to once, at the top
+  of the page — the selection is saved automatically. Clicking a theme's
+  **Apply** button fires immediately against that saved selection; no
+  picker per click.
 - **Create your own**: pick a set of lights, set them how you want via the
   HA app/dashboard, then hit "New Theme" to capture their current
-  color/brightness as a reusable theme.
+  color/brightness as a reusable theme (defaults to your saved target
+  lights, but you can pick different ones for the capture).
 - **Share to a community repo**: hitting "Share" on a theme opens a
   prefilled GitHub "create new file" page (via the `submission_repo`
   option) with the theme's JSON pre-filled, so you (or anyone) can review
   and open a PR — no GitHub token or OAuth wired into the add-on itself.
 
-## Install (local development / personal use)
+## Install via the published repository (recommended)
+
+1. In Home Assistant: **Settings → Apps → App Store → ⋮ → Repositories**
+   (older versions: **Settings → Add-ons → Add-on Store**), paste
+   `https://github.com/snekxs/ha-theme-library`, save.
+2. "Light Theme Library" appears in the store; install as normal.
+3. Start it and enable "Show in sidebar" — it uses ingress, so it opens
+   inside the HA UI with no extra port/auth setup.
+
+For a one-click add flow, generate a `my.home-assistant.io` add-repository
+link pointing at that URL and share that instead of raw instructions.
+
+## Updating
+
+Home Assistant only shows an "Update available" when the `version` field in
+`theme_library/config.yaml` changes, so every change that should reach an
+installed instance needs a version bump:
+
+1. Edit `theme_library/config.yaml`, bump `version` (e.g. `0.2.0` →
+   `0.2.1`).
+2. Add a matching entry at the top of `theme_library/CHANGELOG.md`
+   describing what changed — Home Assistant shows this in the update
+   dialog (otherwise it says "No changelog found").
+3. Commit and `git push`.
+4. In Home Assistant: **Settings → Apps → App Store → ⋮ → Check for
+   updates**, then open "Light Theme Library" — an **Update** button
+   appears, with your changelog entry shown above it. Click it, and
+   restart the add-on if it doesn't restart on its own.
+
+## Install locally instead (no GitHub, for quick local iteration)
 
 1. Enable the Samba or SSH add-on on your Home Assistant instance so you
    can reach the `/addons` folder.
 2. Copy this repo's `theme_library/` folder into `/addons/theme_library`
    on your HA instance (so the path is
    `/addons/theme_library/config.yaml`, etc).
-3. In Home Assistant: **Settings → Apps → App Store** (older versions:
-   **Settings → Add-ons → Add-on Store**), click the refresh/overflow menu
-   to check for local apps, and "Light Theme Library" should appear under
-   Local.
-4. Install, start it, and enable "Show in sidebar" — it uses ingress, so
-   it opens inside the HA UI with no extra port/auth setup.
-
-## Install via a published repository (once you push this to GitHub)
-
-1. Push this repo to GitHub (it already has the `repository.yaml` a
-   repository needs at its root).
-2. In Home Assistant: **Settings → Apps → App Store → ⋮ → Repositories**,
-   paste your repo's URL, save.
-3. "Light Theme Library" will appear in the store; install as normal.
-
-For a one-click add flow, generate a `my.home-assistant.io` add-repository
-link pointing at your GitHub URL and share that instead of raw instructions.
+3. In Home Assistant: **Settings → Apps → App Store**, click the
+   refresh/overflow menu to check for local apps, and "Light Theme Library"
+   should appear under Local.
+4. Install and start it. To update, re-copy the changed files and use the
+   add-on's **Rebuild** button (no version bump required for local-only
+   installs, since there's no repo to diff against).
 
 ## Configuration
 
