@@ -5,7 +5,6 @@ import os
 import random
 import re
 import shutil
-import urllib.parse
 from pathlib import Path
 from typing import Optional
 
@@ -21,11 +20,12 @@ DEFAULT_THEMES_FILE = APP_DIR / "themes_default.json"
 TARGET_LIGHTS_FILE = DATA_DIR / "target_lights.json"
 EFFECTS_FILE = APP_DIR / "effects_default.json"
 SETTINGS_FILE = DATA_DIR / "settings.json"
+FAVORITES_FILE = DATA_DIR / "favorites.json"
 DEFAULT_SETTINGS = {"dynamic_mode": False, "dynamic_interval": 8}
+DEFAULT_FAVORITES = {"themes": [], "effects": []}
 
 SUPERVISOR_TOKEN = os.environ.get("SUPERVISOR_TOKEN", "")
 HA_API_BASE = "http://supervisor/core/api"
-SUBMISSION_REPO = os.environ.get("SUBMISSION_REPO", "").strip()
 
 ALLOWED_LIGHT_ATTRS = {"color", "brightness_pct"}
 
@@ -117,6 +117,18 @@ def load_settings() -> dict:
 def save_settings(settings: dict):
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     SETTINGS_FILE.write_text(json.dumps(settings, indent=2))
+
+
+def load_favorites() -> dict:
+    if not FAVORITES_FILE.exists():
+        return {k: list(v) for k, v in DEFAULT_FAVORITES.items()}
+    data = json.loads(FAVORITES_FILE.read_text())
+    return {**DEFAULT_FAVORITES, **data}
+
+
+def save_favorites(favorites: dict):
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    FAVORITES_FILE.write_text(json.dumps(favorites, indent=2))
 
 
 def slugify(name: str) -> str:
@@ -287,6 +299,30 @@ async def _stop_dynamic():
     _dynamic_name = None
 
 
+async def _pin_theme_scene(theme: dict) -> str:
+    """Create/update a real HA scene entity for this theme, snapshotted onto
+    the current target lights, so it can be added as a dashboard button."""
+    entity_ids = load_target_lights()
+    if not entity_ids:
+        raise HTTPException(400, "No target lights selected. Pick your target lights first, then favorite again.")
+
+    slots = theme["slots"]
+    entities = {}
+    for i, entity_id in enumerate(entity_ids):
+        slot = slots[i % len(slots)]
+        rgb = hex_to_rgb(slot["color"])
+        brightness_255 = round(slot.get("brightness_pct", 100) / 100 * 255)
+        entities[entity_id] = {
+            "state": "on",
+            "rgb_color": rgb,
+            "brightness": brightness_255,
+        }
+
+    scene_id = f"theme_library_{slugify(theme['name'])}"
+    await ha_post("/services/scene/create", {"scene_id": scene_id, "entities": entities})
+    return f"scene.{scene_id}"
+
+
 class Slot(BaseModel):
     color: str
     brightness_pct: int = 100
@@ -344,6 +380,42 @@ def get_target_lights():
 def set_target_lights(payload: TargetLightsUpdate):
     save_target_lights(payload.entity_ids)
     return payload.entity_ids
+
+
+@app.get("/api/favorites")
+def get_favorites():
+    return load_favorites()
+
+
+@app.post("/api/favorites/{kind}/{item_id}/toggle")
+async def toggle_favorite(kind: str, item_id: str):
+    if kind not in ("themes", "effects"):
+        raise HTTPException(404, "Unknown favorites kind")
+
+    favorites = load_favorites()
+    now_favorited = item_id not in favorites[kind]
+    if now_favorited:
+        favorites[kind].append(item_id)
+    else:
+        favorites[kind].remove(item_id)
+    save_favorites(favorites)
+
+    result = {"favorited": now_favorited, "pinned": False, "scene_entity_id": None}
+
+    if kind == "themes" and now_favorited:
+        themes = load_themes()
+        theme = next((t for t in themes if t["id"] == item_id), None)
+        if theme:
+            try:
+                scene_entity_id = await _pin_theme_scene(theme)
+                result["pinned"] = True
+                result["scene_entity_id"] = scene_entity_id
+            except HTTPException as e:
+                result["pin_error"] = e.detail
+            except Exception:
+                result["pin_error"] = "Couldn't reach Home Assistant to create the scene."
+
+    return result
 
 
 @app.get("/api/settings")
@@ -515,29 +587,6 @@ def delete_theme(theme_id: str):
     themes = [t for t in themes if t["id"] != theme_id]
     save_themes(themes)
     return {"deleted": theme_id}
-
-
-@app.get("/api/themes/{theme_id}/submit-url")
-def submit_url(theme_id: str):
-    if not SUBMISSION_REPO:
-        raise HTTPException(400, "No submission_repo configured in add-on options")
-    themes = load_themes()
-    theme = next((t for t in themes if t["id"] == theme_id), None)
-    if not theme:
-        raise HTTPException(404, "Theme not found")
-
-    submission = {
-        "name": theme["name"],
-        "description": theme.get("description", ""),
-        "category": theme.get("category", "Custom"),
-        "tags": theme.get("tags", []),
-        "slots": theme["slots"],
-    }
-    filename = f"themes/{slugify(theme['name'])}.json"
-    content = json.dumps(submission, indent=2)
-    query = urllib.parse.urlencode({"filename": filename, "value": content})
-    url = f"https://github.com/{SUBMISSION_REPO}/new/main?{query}"
-    return {"url": url}
 
 
 app.mount("/", StaticFiles(directory=str(APP_DIR / "static"), html=True), name="static")

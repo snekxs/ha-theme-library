@@ -10,8 +10,12 @@ let savedTargetIds = [];
 let allThemes = [];
 let allEffects = [];
 let settings = { dynamic_mode: false, dynamic_interval: 8 };
+let favoriteThemeIds = new Set();
+let favoriteEffectIds = new Set();
 let activeTab = "themes";
 let activeCategory = "All";
+
+const FAVORITES_FILTER = "__favorites__";
 
 function showToast(msg, isError = false) {
   toast.textContent = msg;
@@ -49,20 +53,27 @@ function currentList() {
   return activeTab === "themes" ? allThemes : allEffects;
 }
 
+function isFavorited(item, kind) {
+  return kind === "theme" ? favoriteThemeIds.has(item.id) : favoriteEffectIds.has(item.id);
+}
+
 function itemCard(item, kind) {
   const el = document.createElement("div");
   el.className = "card";
   const tags = item.tags || [];
+  const favorited = isFavorited(item, kind);
   el.innerHTML = `
     <div class="swatch">${swatchHtml(item)}</div>
     <div class="card-body">
-      <span class="category-badge">${item.category || "Custom"}</span>
+      <div class="card-top-row">
+        <span class="category-badge">${item.category || "Custom"}</span>
+        <button class="btn btn-icon fav-btn ${favorited ? "active" : ""}" title="Favorite">${favorited ? "★" : "☆"}</button>
+      </div>
       <h3>${item.name}</h3>
       <p>${item.description || ""}</p>
       <div class="tags">${tags.map((t) => `<span class="tag">${t}</span>`).join("")}</div>
       <div class="card-actions">
         <button class="btn btn-primary apply-btn">Apply</button>
-        ${kind === "theme" ? '<button class="btn share-btn" title="Submit to community library">Share</button>' : ""}
         ${kind === "theme" && item.source !== "bundled" ? '<button class="btn btn-icon btn-danger delete-btn" title="Delete">Del</button>' : ""}
       </div>
     </div>
@@ -70,8 +81,7 @@ function itemCard(item, kind) {
   el.querySelector(".apply-btn").addEventListener("click", () =>
     kind === "theme" ? applyTheme(item) : applyEffect(item)
   );
-  const shareBtn = el.querySelector(".share-btn");
-  if (shareBtn) shareBtn.addEventListener("click", () => shareTheme(item));
+  el.querySelector(".fav-btn").addEventListener("click", () => toggleFavorite(item, kind));
   const delBtn = el.querySelector(".delete-btn");
   if (delBtn) delBtn.addEventListener("click", () => deleteTheme(item));
   return el;
@@ -80,15 +90,29 @@ function itemCard(item, kind) {
 function renderGrid() {
   grid.innerHTML = "";
   const kind = activeTab === "themes" ? "theme" : "effect";
-  const visible = activeCategory === "All"
-    ? currentList()
-    : currentList().filter((t) => (t.category || "Custom") === activeCategory);
+  let visible = currentList();
+  if (activeCategory === FAVORITES_FILTER) {
+    visible = visible.filter((item) => isFavorited(item, kind));
+  } else if (activeCategory !== "All") {
+    visible = visible.filter((t) => (t.category || "Custom") === activeCategory);
+  }
   visible.forEach((item) => grid.appendChild(itemCard(item, kind)));
 }
 
 function renderCategoryFilters() {
   const categories = ["All", ...new Set(currentList().map((t) => t.category || "Custom"))];
   categoryFiltersEl.innerHTML = "";
+
+  const favBtn = document.createElement("button");
+  favBtn.className = "category-pill" + (activeCategory === FAVORITES_FILTER ? " active" : "");
+  favBtn.textContent = "★ Favorites";
+  favBtn.addEventListener("click", () => {
+    activeCategory = FAVORITES_FILTER;
+    renderCategoryFilters();
+    renderGrid();
+  });
+  categoryFiltersEl.appendChild(favBtn);
+
   categories.forEach((cat) => {
     const btn = document.createElement("button");
     btn.className = "category-pill" + (cat === activeCategory ? " active" : "");
@@ -142,10 +166,29 @@ async function deleteTheme(theme) {
   }
 }
 
-async function shareTheme(theme) {
+async function toggleFavorite(item, kind) {
+  const apiKind = kind === "theme" ? "themes" : "effects";
   try {
-    const { url } = await api(`themes/${theme.id}/submit-url`);
-    window.open(url, "_blank", "noopener");
+    const res = await api(`favorites/${apiKind}/${item.id}/toggle`, { method: "POST" });
+    const set = kind === "theme" ? favoriteThemeIds : favoriteEffectIds;
+    if (res.favorited) {
+      set.add(item.id);
+    } else {
+      set.delete(item.id);
+    }
+    renderGrid();
+
+    if (!res.favorited) {
+      showToast("Removed from favorites");
+    } else if (kind === "effect") {
+      showToast("Added to favorites");
+    } else if (res.pinned) {
+      showToast(`Favorited — added ${res.scene_entity_id} to Home Assistant. Add it to your dashboard as a button.`);
+    } else if (res.pin_error) {
+      showToast(`Favorited, but couldn't pin to dashboard: ${res.pin_error}`, true);
+    } else {
+      showToast("Added to favorites");
+    }
   } catch (e) {
     showToast(e.message, true);
   }
@@ -378,7 +421,9 @@ async function init() {
   }
 
   try {
-    await Promise.all([loadThemes(), loadEffects()]);
+    const [, , favorites] = await Promise.all([loadThemes(), loadEffects(), api("favorites")]);
+    favoriteThemeIds = new Set(favorites.themes);
+    favoriteEffectIds = new Set(favorites.effects);
     renderCategoryFilters();
     renderGrid();
   } catch (e) {

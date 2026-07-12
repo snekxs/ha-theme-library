@@ -2,7 +2,7 @@
 
 A Home Assistant App (add-on) for browsing, creating, and applying light
 presets/themes across your smart lights — like Hue's built-in themes, but
-extensible and shareable.
+extensible.
 
 ## What it does
 
@@ -36,10 +36,14 @@ extensible and shareable.
   via the HA app/dashboard, then hit "+ New" to capture their current
   color/brightness as a reusable theme (defaults to your saved target
   lights, but you can pick different ones for the capture).
-- **Share to a community repo**: hitting "Share" on a theme opens a
-  prefilled GitHub "create new file" page (via the `submission_repo`
-  option) with the theme's JSON pre-filled, so you (or anyone) can review
-  and open a PR — no GitHub token or OAuth wired into the add-on itself.
+- **Favorites**: star any theme or effect to bookmark it — a "★
+  Favorites" filter shows just your starred items. Favoriting a *theme*
+  also creates/updates a real Home Assistant scene entity
+  (`scene.theme_library_<name>`), snapshotted onto your current target
+  lights, so you can add it as a one-tap button on your own Lovelace
+  dashboard (**Edit Dashboard → Add Card → Entity/Button**, pick the
+  scene). Un-favoriting just removes the bookmark — the scene entity is
+  left in place since it's harmless and cheap to keep.
 
 ## Install via the published repository (recommended)
 
@@ -53,25 +57,9 @@ extensible and shareable.
 For a one-click add flow, generate a `my.home-assistant.io` add-repository
 link pointing at that URL and share that instead of raw instructions.
 
-## Configuration
-
-In the add-on's **Configuration** tab:
-
-- `submission_repo` (optional): a GitHub `owner/repo` (e.g.
-  `yourname/ha-theme-library-submissions`) that has a `themes/` folder on
-  its default branch. When set, the "Share" button on any theme opens a
-  prefilled GitHub page to submit that theme as a new file/PR there. Leave
-  blank to disable sharing.
-
 ## Security notes
 
 - Runs with `homeassistant_api: true` and `hassio_role: homeassistant`
-  only — enough to read light states and call `light.turn_on`, nothing
-  more (no `admin` role, no host network, protection mode stays enabled).
-- The "Share" feature never holds a GitHub token or writes to GitHub on
-  your behalf — it only builds a URL. The actual commit/PR happens in your
-  browser, authenticated as you.
-- Submitted theme files should be treated as untrusted input by whoever
-  reviews `submission_repo`'s PRs: only `color`/`brightness_pct` fields are
-  ever written by this app, and a reviewer should reject anything that
-  doesn't match that shape before merging.
+  only — enough to read light states, call `light.turn_on`, and create
+  scenes via `scene.create` (used by Favorites). No `admin` role, no host
+  network, protection mode stays enabled.

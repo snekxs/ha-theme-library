@@ -1,5 +1,5 @@
 name: Light Theme Library
-version: "0.5.1"
+version: "0.6.0"
 slug: theme_library
 description: Browse, create, and apply light presets/themes across your smart lights.
 url: https://github.com/snekxs/ha-theme-library
@@ -16,7 +16,5 @@ panel_icon: mdi:palette
 panel_title: Themes
 homeassistant_api: true
 hassio_role: homeassistant
-options:
-  submission_repo: ""
-schema:
-  submission_repo: "str?"
+options: {}
+schema: {}

@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.6.0
+
+- Removed the Share/community-submission feature entirely: no more
+  Share button, `submission_repo` option, or submit-url endpoint.
+- Added **Favorites**: a star button on every theme/effect card, plus a
+  "★ Favorites" filter to see just your starred items.
+- Favoriting a theme now creates/updates a real Home Assistant scene
+  entity (`scene.theme_library_<name>`) snapshotted onto your current
+  target lights, so it can be added as a button on your own Lovelace
+  dashboard.
+
 ## 0.5.1
 
 - Candle and Fireplace flicker much more lifelike now: each light runs
